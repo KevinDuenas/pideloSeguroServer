@@ -5,11 +5,17 @@ scalar Date
 directive @paginate on FIELD_DEFINITION
 
 type Query {
+  # User
+  userByToken: User!
+
   # Others
   serverDate: Date!
 }
 
 type Mutation {
+  # User
+  updateUserByToken(user: UserUpdateInput!): User!
+
   # Others
   serverDate: Date!
 }

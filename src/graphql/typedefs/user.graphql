@@ -1,0 +1,37 @@
+# Types
+type User implements TimeStamps {
+  id: ID!
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  phoneNumber: String!
+  dob: Date!
+  profileImg: String
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Users {
+  info: Info!
+  results: [User]!
+}
+
+# Inputs
+
+input UserUpdateInput {
+  firstName: String
+  phoneNumber: String
+  firstLastName: String
+  secondLastName: String
+  email: String
+  dob: Date
+  profileImg: String
+}
+
+# Enums
+
+enum UserSortableField {
+  createdAt
+}

@@ -1,0 +1,15 @@
+# Types
+type Automobile implements TimeStamps {
+  id: ID!
+  owner: User!
+  brand: String!
+  model: String!
+  plates: String!
+  color: String!
+  verificationStatus: String!
+  type: String!
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}

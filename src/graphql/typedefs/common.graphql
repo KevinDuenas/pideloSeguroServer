@@ -1,0 +1,38 @@
+# Interface
+interface TimeStamps {
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+# Types
+type Info {
+  count: Int
+  pages: Int
+  next: Int
+  prev: Int
+}
+
+# Inputs
+input QueryParams {
+  pageSize: Int!
+  page: Int!
+}
+
+input DateRange {
+  lte: Date
+  gte: Date
+}
+
+input QueryOperators {
+  exists: Boolean
+  eq: String
+  ne: String
+  in: [String]
+  nin: [String]
+}
+
+# Enums
+enum Order {
+  asc
+  desc
+}

@@ -32,20 +32,14 @@ auth.post("/sendCode", async (req, res) => {
     const user = await User.findOne({
       phoneNumber: phoneNumber,
     });
-    if (!user)
-      return res.status(401).json({
-        message: "Sending Code Failed",
-        error: "The phoneNumber is not associated with an account.",
-      });
     twilioClient.verify.v2
       .services(twilioConfig.verifyService)
       .verifications.create({ to: phoneNumber, channel: "sms" })
       .then((verification) => {
         const { status } = verification;
-        // return res.status(200).json({
-        //   verification: status,
-        // });
-        res.status(200).send("OK");
+        return res.status(200).json({
+          hasAccount: user ? true : false,
+        });
       })
       .catch((err) => {
         return res.status(500).json(err);
@@ -56,7 +50,7 @@ auth.post("/sendCode", async (req, res) => {
 });
 
 auth.post("/register", async (req, res) => {
-  const { phoneNumber, firstName, firstLastName, secondLastName, dob, code } =
+  const { phoneNumber, firstName, firstLastName, secondLastName, code } =
     req.body;
 
   try {
@@ -73,7 +67,6 @@ auth.post("/register", async (req, res) => {
       firstName,
       firstLastName,
       secondLastName,
-      dob,
       phoneNumber,
     });
 
@@ -85,7 +78,15 @@ auth.post("/register", async (req, res) => {
 
         if (status === "approved") {
           await user.save();
-          res.status(201).send(user);
+          const { refreshToken, accessToken, session } =
+            await tokens.refresh.set(req, res, {
+              user,
+            });
+          return res.status(200).json({
+            refreshToken,
+            accessToken,
+            session,
+          });
         } else {
           res.status(401).json({
             message: "Verification failed",
@@ -119,7 +120,6 @@ auth.post("/login", async (req, res) => {
       .then(async (verification_check) => {
         let { status } = verification_check;
         if (status === "approved") {
-          console.log("uno");
           const { refreshToken, accessToken, session } =
             await tokens.refresh.set(req, res, {
               user,
