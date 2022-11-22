@@ -1,0 +1,29 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@config": "./src/config",
+          "@db": "./src/db",
+          "@connections": "./src/connections",
+          "@graphql": "./src/graphql",
+          "@middlewares": "./src/middlewares",
+          "@routes": "./src/routes",
+          "@cronJobs": "./src/cronJobs"
+        }
+      }
+    ]
+  ]
+}

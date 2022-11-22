@@ -1,0 +1,15 @@
+# Custom Scalars
+scalar Date
+
+# Directives
+directive @paginate on FIELD_DEFINITION
+
+type Query {
+  # Others
+  serverDate: Date!
+}
+
+type Mutation {
+  # Others
+  serverDate: Date!
+}

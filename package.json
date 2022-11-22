@@ -1,0 +1,48 @@
+{
+  "name": "pideloSeguroServer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/KevinDuenas/pideloSeguroServer.git",
+  "author": "Kevin Duenas",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node dist",
+    "dev": "nodemon src --exec babel-node",
+    "build": "BABEL_ENV=production babel src --out-dir dist --copy-files --no-copy-ignored",
+    "aws:email:update": "babel-node src/connections/aws/email/scripts/update-templates.js"
+  },
+  "dependencies": {
+    "@graphql-tools/schema": "^7.0.0",
+    "@graphql-tools/utils": "^7.0.0",
+    "apollo-server-express": "^3.9.0",
+    "aws-sdk": "^2.1209.0",
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dataloader": "^2.1.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-useragent": "^1.0.15",
+    "fs": "^0.0.1-security",
+    "generate-password": "^1.7.0",
+    "graphql": "^16.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "mongoose": "^6.3.8",
+    "mongoose-delete": "^0.5.4",
+    "node-cron": "^3.0.2",
+    "path": "^0.12.7",
+    "signale": "^1.4.0",
+    "twilio": "^3.83.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/node": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "nodemon": "^2.0.16"
+  }
+}
