@@ -3,7 +3,7 @@ const cookie = {
     session: "session",
     refreshToken: "refresh-token",
   },
-  domain: ".onerp.com.mx",
+  domain: ".pideloseguro.com",
 };
 
 const defaultParams = { page: 1, pageSize: Number.MAX_SAFE_INTEGER };
