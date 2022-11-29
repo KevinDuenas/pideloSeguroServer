@@ -33,11 +33,15 @@ auth.post("/sendCode", async (req, res) => {
       phoneNumber: phoneNumber,
     });
     if (isLogin && !user) {
-      throw new Error("Phone number is not linked to any user.");
+      return res
+        .status(404)
+        .json("Phone number is already linked to any user.");
     }
 
     if (!isLogin && user) {
-      throw new Error("Phone number is already linked to any user.");
+      return res
+        .status(409)
+        .json("Phone number is already linked to any user.");
     }
 
     twilioClient.verify.v2
