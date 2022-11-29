@@ -26,12 +26,20 @@ auth.get("/access", async (req, res) => {
 });
 
 auth.post("/sendCode", async (req, res) => {
-  const { phoneNumber } = req.body;
+  const { phoneNumber, isLogin } = req.body;
 
   try {
     const user = await User.findOne({
       phoneNumber: phoneNumber,
     });
+    if (isLogin && !user) {
+      throw new Error("Phone number is not linked to any user.");
+    }
+
+    if (!isLogin && user) {
+      throw new Error("Phone number is already linked to any user.");
+    }
+
     twilioClient.verify.v2
       .services(twilioConfig.verifyService)
       .verifications.create({ to: phoneNumber, channel: "sms" })
