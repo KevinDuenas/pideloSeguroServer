@@ -1,0 +1,27 @@
+# Type
+type Config {
+  driverDocuments: [DocumentConfig]!
+}
+
+type DocumentConfig {
+  id: ID!
+  name: String!
+  description: String!
+  formatsAccepted: [DocumentsTypes]!
+  required: Boolean
+  active: Boolean
+}
+
+# Inputs
+
+input EditConfig {
+  driverDocuments: [DocumentCreateInput]
+}
+
+input DocumentCreateInput {
+  name: String!
+  description: String!
+  formatsAccepted: [DocumentsTypes]!
+  required: Boolean
+  active: Boolean
+}

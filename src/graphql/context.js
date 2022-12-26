@@ -1,8 +1,9 @@
 import { verify } from "jsonwebtoken";
 import DataLoader from "dataloader";
 import { secrets } from "@config/environment";
-import { User } from "@db/models";
-//import resolveUser from "@graphql/resolvers/user";
+import { User, Config } from "@db/models";
+import resolveUser from "@graphql/resolvers/user";
+import resolveConfig from "@graphql/resolvers/user";
 
 const createLoader = (Model, resolve) => {
   const loader = new DataLoader(async (ids) => {
@@ -44,7 +45,8 @@ const context = async ({ req }) => {
   if (accessToken) ({ userId } = verify(accessToken, secrets.access));
 
   const loaders = {
-    // user: createLoader(User, resolveUser),
+    user: createLoader(User, resolveUser),
+    config: createLoader(Config, resolveConfig),
   };
 
   return { user: { id: userId }, loaders };

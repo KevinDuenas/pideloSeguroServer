@@ -1,9 +1,7 @@
 import { User, Development } from "@db/models";
 import { hashSync, compareSync } from "bcryptjs";
 import { generate } from "generate-password";
-import { auth } from "@graphql/resolvers/utils";
 import resolveUser from "@graphql/resolvers/user";
-import { send } from "@connections/aws/email";
 
 const userMutations = {
   updateUserByToken: async (_, { user }, { user: { id }, loaders }) => {

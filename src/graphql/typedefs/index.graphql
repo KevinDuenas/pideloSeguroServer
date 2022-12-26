@@ -8,6 +8,9 @@ type Query {
   # User
   userByToken: User!
 
+  # Confg - Documents
+  driverDocuments: [DocumentConfig]
+
   # Others
   serverDate: Date!
 }
@@ -15,6 +18,11 @@ type Query {
 type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
+  createVerificationRequest(userId: ID!): Boolean!
+  updateVerificationRequest(requestId: ID!): Boolean!
+
+  # Config - Documents
+  createDocument(document: DocumentCreateInput!): Boolean!
 
   # Others
   serverDate: Date!

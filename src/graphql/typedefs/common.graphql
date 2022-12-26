@@ -36,3 +36,10 @@ enum Order {
   asc
   desc
 }
+
+enum DocumentsTypes {
+  PDF
+  JPEG
+  JPE
+  PNG
+}

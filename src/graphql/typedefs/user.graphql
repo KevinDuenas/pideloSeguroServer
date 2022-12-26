@@ -7,6 +7,7 @@ type User implements TimeStamps {
   phoneNumber: String!
   dob: Date!
   profileImg: String
+  documents: [UserDocument]!
 
   # Interface required
   createdAt: Date!
@@ -16,6 +17,15 @@ type User implements TimeStamps {
 type Users {
   info: Info!
   results: [User]!
+}
+
+type UserDocument {
+  id: ID
+  name: String!
+  uri: String!
+  status: UserDocumentStatus!
+  rejectedReason: String
+  type: DocumentsTypes!
 }
 
 # Inputs
@@ -34,4 +44,10 @@ input UserUpdateInput {
 
 enum UserSortableField {
   createdAt
+}
+
+enum UserDocumentStatus {
+  APPROVED
+  REJECTED
+  PENDING
 }

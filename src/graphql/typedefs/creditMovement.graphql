@@ -1,0 +1,13 @@
+# Types
+
+type CreditMovement implements TimeStamps {
+  driver: User!
+  type: String!
+  amount: Float!
+  method: String!
+  status: String!
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
