@@ -1,6 +1,6 @@
-import userQueries from './queries';
-import userMutations from './mutations';
-import userFields from './fields';
+import userQueries from "./queries";
+import userMutations from "./mutations";
+import userFields from "./fields";
 
 const resolveUser = {
   one: (user, loaders) => {
@@ -10,10 +10,6 @@ const resolveUser = {
     return {
       ...userObject,
       id: userObject._id,
-      worksAt: userObject.worksAt.map((work) => ({
-        ...work,
-        development: () => loaders.development.one(work.development, loaders),
-      })),
     };
   },
   many: (users, loaders) => users.map((user) => resolveUser.one(user, loaders)),
