@@ -11,6 +11,9 @@ type Query {
   # Confg - Documents
   driverDocuments: [DocumentConfig]
 
+  # AWS
+  signFileUrl(filePath: String!, fileType: String!): SignedFileUrl!
+
   # Others
   serverDate: Date!
 }

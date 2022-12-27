@@ -1,0 +1,4 @@
+type SignedFileUrl {
+  signedUrl: String
+  fileUrl: String!
+}
