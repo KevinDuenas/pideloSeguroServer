@@ -12,7 +12,7 @@ const UserSchema = new Schema(
     email: { type: String, required: false, unique: true },
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     address: {
-      formattedAddress: { type: String, required: true },
+      formattedAddress: { type: String },
       extraInfo: { type: String },
       // Setup based on https://docs.mongodb.com/manual/reference/geojson/
       geolocation: {
@@ -20,23 +20,17 @@ const UserSchema = new Schema(
           type: String,
           default: "Point",
           enum: ["Point"],
-          required: true,
         },
         // [lng, lat]
-        coordinates: { type: [Number], required: true },
+        coordinates: { type: [Number] },
       },
     },
     documents: [
       {
-        document: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: "Document",
-        },
         name: { type: String, required: true },
         uri: { type: String, required: true },
         type: { type: String, required: true },
-        status: { type: String },
+        status: { type: String, required: true, default: "PENDING" },
         rejectedReason: { type: String },
       },
     ],

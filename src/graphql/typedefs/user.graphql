@@ -20,12 +20,19 @@ type Users {
 }
 
 type UserDocument {
-  id: ID
-  name: String!
-  uri: String!
-  status: UserDocumentStatus!
+  _id: ID
+  name: String
+  uri: String
+  status: UserDocumentStatusEnum
   rejectedReason: String
-  type: DocumentsTypes!
+  type: DocumentsTypes
+}
+
+type UserDocumentStatus {
+  _id: ID
+  name: String
+  formatsAccepted: [DocumentsTypes]!
+  uploadRequired: Boolean
 }
 
 # Inputs
@@ -38,15 +45,22 @@ input UserUpdateInput {
   email: String
   dob: Date
   profileImg: String
+  documents: [UserDocumentInput]
+}
+
+input UserDocumentInput {
+  _id: ID!
+  name: String!
+  uri: String!
+  type: DocumentsTypes!
 }
 
 # Enums
-
 enum UserSortableField {
   createdAt
 }
 
-enum UserDocumentStatus {
+enum UserDocumentStatusEnum {
   APPROVED
   REJECTED
   PENDING

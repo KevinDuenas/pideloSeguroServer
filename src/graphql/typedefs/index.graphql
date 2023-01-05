@@ -7,6 +7,7 @@ directive @paginate on FIELD_DEFINITION
 type Query {
   # User
   userByToken: User!
+  userDocumentsStatus: [UserDocumentStatus]
 
   # Confg - Documents
   driverDocuments: [DocumentConfig]
@@ -21,6 +22,7 @@ type Query {
 type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
+  uploadUserDocumentByToken(document: UserDocumentInput!): User!
   createVerificationRequest(userId: ID!): Boolean!
   updateVerificationRequest(requestId: ID!): Boolean!
 
