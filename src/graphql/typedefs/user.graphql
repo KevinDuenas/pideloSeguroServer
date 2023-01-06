@@ -9,6 +9,9 @@ type User implements TimeStamps {
   profileImg: String
   documents: [UserDocument]!
 
+  # dynamic fields
+  status: UserStatusEnum
+
   # Interface required
   createdAt: Date!
   updatedAt: Date!
@@ -64,4 +67,11 @@ enum UserDocumentStatusEnum {
   APPROVED
   REJECTED
   PENDING
+}
+
+enum UserStatusEnum {
+  MISSING
+  PENDING
+  APPROVED
+  BLOCKED
 }

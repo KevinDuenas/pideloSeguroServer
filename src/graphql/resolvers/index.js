@@ -16,6 +16,7 @@ const resolvers = {
     ...configMutations,
     ...tripMutations,
   },
+  ...userFields,
 };
 
 export default resolvers;
