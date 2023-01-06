@@ -12,6 +12,11 @@ type Info {
   prev: Int
 }
 
+type Geolocation {
+  type: GeolocationType!
+  coordinates: [Float!]!
+}
+
 # Inputs
 input QueryParams {
   pageSize: Int!
@@ -31,6 +36,11 @@ input QueryOperators {
   nin: [String]
 }
 
+input GeolocationInput {
+  type: GeolocationType!
+  coordinates: [Float!]!
+}
+
 # Enums
 enum Order {
   asc
@@ -42,4 +52,8 @@ enum DocumentsTypes {
   JPEG
   JPE
   PNG
+}
+
+enum GeolocationType {
+  Point
 }

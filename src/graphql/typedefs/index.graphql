@@ -26,6 +26,9 @@ type Mutation {
   createVerificationRequest(userId: ID!): Boolean!
   updateVerificationRequest(requestId: ID!): Boolean!
 
+  # Trip
+  requestTrip(request: RequestTripInput!): Trip
+
   # Config - Documents
   createDocument(document: DocumentCreateInput!): Boolean!
 

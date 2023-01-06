@@ -1,0 +1,58 @@
+# Types
+
+type Trip {
+  id: ID!
+  folio: String
+  driver: ID
+  programmedDate: Date
+  status: String
+  tripStartedAt: Date
+  tripEndedAt: Date
+  destinations: [TripDestination]
+  tripType: String
+  onerpInfo: OnerpInfo
+  meters: Float
+  cost: Float
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type TripDestination {
+  priority: Int
+  formattedAddress: String
+  extraInfo: String
+  geolocation: Geolocation
+}
+
+type OnerpInfo {
+  storeId: ID!
+  userId: ID!
+}
+
+# Inputs
+
+input TripDestinationInput {
+  priority: Int
+  formattedAddress: String
+  extraInfo: String
+  geolocation: GeolocationInput
+}
+
+input OnerpInfoInput {
+  storeId: ID!
+  userId: ID!
+}
+
+input RequestTripInput {
+  destinations: [TripDestinationInput]!
+  onerpInfo: OnerpInfoInput!
+  tripType: TripTypesEnum
+}
+
+# Enums
+
+enum TripTypesEnum {
+  FOOD_DELIVERY
+}
