@@ -1,0 +1,27 @@
+# Types
+
+type VerificationRequest {
+  id: ID
+  folio: String
+  type: VerificationRequestTypesEnum
+  status: VerificationRequestStatusEnum
+  driver: User
+  reviewedAt: Date
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+# Inputs
+
+# Enums
+
+enum VerificationRequestTypesEnum {
+  DRIVER_REQUEST
+}
+
+enum VerificationRequestStatusEnum {
+  REVIEW_PENDING
+  APPROVED
+  DENIED
+}

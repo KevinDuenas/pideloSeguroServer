@@ -23,11 +23,12 @@ type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
   uploadUserDocumentByToken(document: UserDocumentInput!): User!
-  createVerificationRequest(userId: ID!): Boolean!
-  updateVerificationRequest(requestId: ID!): Boolean!
 
   # Trip
   requestTrip(request: RequestTripInput!): Trip
+
+  # Verification Request
+  createDriverVerificationRequest: Boolean
 
   # Config - Documents
   createDocument(document: DocumentCreateInput!): Boolean!
