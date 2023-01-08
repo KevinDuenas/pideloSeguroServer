@@ -37,6 +37,7 @@ type UserDocumentStatus {
   name: String
   formatsAccepted: [DocumentsTypes]!
   uploadRequired: Boolean
+  description: String
 }
 
 # Inputs
