@@ -5,6 +5,7 @@ type User implements TimeStamps {
   firstLastName: String!
   secondLastName: String!
   phoneNumber: String!
+  email: String
   dob: Date
   profileImg: String
   documents: [UserDocument]!
