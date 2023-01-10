@@ -38,10 +38,6 @@ const tokens = {
       const accessToken = sign(
         {
           userId: user.id, // Username needed to inmediately detect if a profile page is owned
-          username: user.username,
-          // Overall Role is needed to show interface elements
-          // But SHOULD NEVER BE USED as a way to really authenticate due its duration
-          overallRole: user.overallRole,
         },
         secrets.access,
         {
