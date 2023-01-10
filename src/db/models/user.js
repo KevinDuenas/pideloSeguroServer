@@ -11,6 +11,7 @@ const UserSchema = new Schema(
     profileImg: { type: String },
     email: { type: String, required: false, unique: true },
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
+    pushNotificationToken: { type: String },
     address: {
       formattedAddress: { type: String },
       extraInfo: { type: String },

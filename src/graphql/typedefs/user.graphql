@@ -9,6 +9,7 @@ type User implements TimeStamps {
   dob: Date
   profileImg: String
   documents: [UserDocument]!
+  pushNotificationToken: String
 
   # dynamic fields
   status: UserStatusEnum
@@ -51,6 +52,7 @@ input UserUpdateInput {
   dob: Date
   profileImg: String
   documents: [UserDocumentInput]
+  pushNotificationToken: String
 }
 
 input UserDocumentInput {
