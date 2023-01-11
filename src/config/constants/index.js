@@ -3,7 +3,7 @@ const cookie = {
     session: "session",
     refreshToken: "refresh-token",
   },
-  domain: ".pideloseguro.com",
+  domain: ".pideloseguro.net",
 };
 
 const defaultParams = { page: 1, pageSize: Number.MAX_SAFE_INTEGER };
