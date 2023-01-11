@@ -36,3 +36,8 @@ type Mutation {
   # Others
   serverDate: Date!
 }
+
+type Subscription {
+  # Trip
+  newTrip: Trip
+}

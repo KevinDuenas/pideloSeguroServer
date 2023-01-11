@@ -13,7 +13,8 @@
     "aws:email:update": "babel-node src/connections/aws/email/scripts/update-templates.js"
   },
   "dependencies": {
-    "@graphql-tools/schema": "^7.0.0",
+    "@apollo/server": "^4.3.0",
+    "@graphql-tools/schema": "^9.0.12",
     "@graphql-tools/utils": "^7.0.0",
     "apollo-server-express": "^3.9.0",
     "aws-sdk": "^2.1209.0",
@@ -25,9 +26,12 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-useragent": "^1.0.15",
+    "firebase-admin": "^11.4.1",
     "fs": "^0.0.1-security",
     "generate-password": "^1.7.0",
     "graphql": "^16.5.0",
+    "graphql-firebase-subscriptions": "^2.3.0",
+    "graphql-ws": "^5.11.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
     "mongoose": "^6.3.8",
@@ -35,7 +39,8 @@
     "node-cron": "^3.0.2",
     "path": "^0.12.7",
     "signale": "^1.4.0",
-    "twilio": "^3.83.3"
+    "twilio": "^3.83.3",
+    "ws": "^8.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",

@@ -5,7 +5,7 @@ type Trip {
   folio: String
   driver: ID
   programmedDate: Date
-  status: String
+  status: TripStatusEnum
   tripStartedAt: Date
   tripEndedAt: Date
   destinations: [TripDestination]
@@ -55,4 +55,11 @@ input RequestTripInput {
 
 enum TripTypesEnum {
   FOOD_DELIVERY
+}
+
+enum TripStatusEnum {
+  DRIVER_PENDING
+  ACTIVE
+  CLOSED
+  CANCELED
 }

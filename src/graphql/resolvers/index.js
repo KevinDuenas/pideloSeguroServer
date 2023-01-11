@@ -1,6 +1,6 @@
 import { userQueries, userMutations, userFields } from "./user";
 import { configMutations, configQueries } from "./config";
-import { tripMutations, tripQueries } from "./trip";
+import { tripMutations, tripQueries, tripSubscriptions } from "./trip";
 import {
   verificationRequestMutations,
   verificationRequestQueries,
@@ -22,6 +22,9 @@ const resolvers = {
     ...configMutations,
     ...tripMutations,
     ...verificationRequestMutations,
+  },
+  Subscription: {
+    ...tripSubscriptions,
   },
   ...userFields,
   ...verificationRequestFields,

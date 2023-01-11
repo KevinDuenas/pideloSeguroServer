@@ -1,6 +1,7 @@
 import tripQueries from "./queries";
 import tripMutations from "./mutations";
 import tripFields from "./fields";
+import tripSubscriptions from "./subscriptions";
 
 const resolveTrip = {
   one: (trip, loaders) => {
@@ -15,5 +16,5 @@ const resolveTrip = {
   many: (trips, loaders) => trips.map((trip) => resolveTrip.one(trip, loaders)),
 };
 
-export { tripQueries, tripMutations, tripFields };
+export { tripQueries, tripMutations, tripSubscriptions, tripFields };
 export default resolveTrip;

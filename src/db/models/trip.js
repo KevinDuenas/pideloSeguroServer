@@ -7,13 +7,12 @@ const TripSchema = new Schema(
     driver: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
       index: true,
     },
     programmedDate: { type: Date },
-    status: { type: String, required: false },
+    status: { type: String, required: false, default: "DRIVER_PENDING" },
     tripStartedAt: { type: Date, required: false },
-    tripEndedAt: { type: Date, required: true },
+    tripEndedAt: { type: Date, required: false },
     destinations: [
       {
         priority: { type: Number, required: true },
@@ -34,16 +33,19 @@ const TripSchema = new Schema(
     ],
     tripType: { type: String },
     onerpInfo: {
-      storeId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        index: true,
+      type: {
+        storeId: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          index: true,
+        },
+        userId: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          index: true,
+        },
       },
-      userId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        index: true,
-      },
+      required: false,
     },
     meters: { type: Number, required: true },
     cost: { type: Number, required: true },

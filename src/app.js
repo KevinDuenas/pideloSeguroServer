@@ -4,9 +4,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 // Graphql stuff
-import server from "@graphql";
+import { apolloServer, httpServer } from "@graphql";
 
-import { auth } from "@routes";
+import { auth, onerp } from "@routes";
 import healthCheck from "@middlewares/health-check";
 
 const corsConfig = {
@@ -15,19 +15,22 @@ const corsConfig = {
 };
 const app = express();
 const start = async () => {
-  await server.start();
+  await apolloServer.start();
 
   // Middlewares
   app.use(express.json(), cors(corsConfig), cookieParser());
 
-  server.applyMiddleware({
+  apolloServer.applyMiddleware({
     app,
     cors: corsConfig,
     path: "/graphql",
   });
 
+  httpServer.listen(4041);
+
   // Routes
   app.use("/auth", auth);
+  app.use("/onerp", onerp);
   app.use("/", healthCheck);
 };
 
