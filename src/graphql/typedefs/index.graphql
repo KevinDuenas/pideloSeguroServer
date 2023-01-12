@@ -26,6 +26,7 @@ type Mutation {
 
   # Trip
   requestTrip(request: RequestTripInput!): Trip
+  acceptTrip(tripId: ID): Trip
 
   # Verification Request
   createDriverVerificationRequest: Boolean

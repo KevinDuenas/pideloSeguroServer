@@ -23,6 +23,20 @@ const tripMutations = {
     await pubSub.publish("newTrip", newTrip._id.toString());
     return resolveTrip.one(newTrip, loaders);
   },
+  acceptTrip: async (_, { tripId }, { user: { id }, loaders }) => {
+    if (!id) throw new Error("Driver token is required.");
+    const trip = await Trip.findOne({
+      _id: tripId,
+      driver: { $exists: false },
+      tripStartedAt: { $exists: false },
+    });
+    if (!trip) throw new Error("Trip is not available any more.");
+    trip.driver = id;
+    trip.tripStartedAt = Date.now();
+    trip.status = "ACTIVE";
+    const savedTrip = await trip.save();
+    return resolveTrip.one(savedTrip, loaders);
+  },
 };
 
 export default tripMutations;
