@@ -19,6 +19,11 @@ type Trip {
   updatedAt: Date!
 }
 
+type Trips {
+  info: Info!
+  results: [Trip]!
+}
+
 type TripDestination {
   priority: Int
   formattedAddress: String

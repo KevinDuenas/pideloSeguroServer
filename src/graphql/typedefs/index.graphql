@@ -12,6 +12,9 @@ type Query {
   # Confg - Documents
   driverDocuments: [DocumentConfig]
 
+  # Trip
+  driverTrips(params: QueryParams): Trips! @paginate
+
   # AWS
   signFileUrl(filePath: String!, fileType: String!): SignedFileUrl!
 
