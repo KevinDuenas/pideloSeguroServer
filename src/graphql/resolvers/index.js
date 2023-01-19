@@ -1,6 +1,11 @@
 import { userQueries, userMutations, userFields } from "./user";
 import { configMutations, configQueries } from "./config";
-import { tripMutations, tripQueries, tripSubscriptions } from "./trip";
+import {
+  tripMutations,
+  tripQueries,
+  tripSubscriptions,
+  tripFields,
+} from "./trip";
 import {
   verificationRequestMutations,
   verificationRequestQueries,
@@ -27,6 +32,7 @@ const resolvers = {
     ...tripSubscriptions,
   },
   ...userFields,
+  ...tripFields,
   ...verificationRequestFields,
 };
 

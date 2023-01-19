@@ -14,6 +14,9 @@ type Trip {
   meters: Float
   cost: Float
 
+  # Dynamics
+  routeUrl: String
+
   # Interface required
   createdAt: Date!
   updatedAt: Date!
