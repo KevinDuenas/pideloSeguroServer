@@ -26,4 +26,19 @@ onerp.post("/requestTrip", async (req, res) => {
   }
 });
 
+onerp.get("/activeTrips", async (req, res) => {
+  const { storeId } = req.body;
+
+  try {
+    const trips = await Trip.find({
+      "onerpInfo.storeId ": storeId,
+      status: { $in: ["DRIVER_PENDING", "ACTIVE"] },
+    }).sort({ createdAt: "desc" });
+
+    return res.status(200).send(trips);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 export default onerp;
