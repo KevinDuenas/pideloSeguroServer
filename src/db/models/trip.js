@@ -44,6 +44,12 @@ const TripSchema = new Schema(
           required: true,
           index: true,
         },
+        ticketId: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          index: true,
+        },
+        ticketTotal: { type: Number, required: true },
       },
       required: false,
     },

@@ -38,4 +38,17 @@ const twilioConfig = {
   verifyService: process.env.TWILIO_VERIFY_SERVICE,
 };
 
-export { port, secrets, env, mongo, AWSConfig, StripeConfig, twilioConfig };
+const googleMapsConfig = {
+  apiKey: process.env.GOOGLE_MAPS_API_KEY,
+};
+
+export {
+  port,
+  secrets,
+  env,
+  mongo,
+  AWSConfig,
+  StripeConfig,
+  twilioConfig,
+  googleMapsConfig,
+};

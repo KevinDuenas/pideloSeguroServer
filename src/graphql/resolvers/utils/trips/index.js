@@ -1,4 +1,5 @@
 import axios from "axios";
+import { googleMapsConfig } from "@config/environment";
 
 const tripsHelper = {
   calculateCost: async (storeCoordinates, shippingCoordinates) => {
@@ -8,7 +9,7 @@ const tripsHelper = {
     let extraKilometersQuote = 0.0;
     let meters = 0.0;
 
-    if (!storeCoordinates || shippingCoordinates)
+    if (!storeCoordinates || !shippingCoordinates)
       throw new Error("Missing information to calculate cost.");
 
     let url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${storeCoordinates[0]},${storeCoordinates[1]}&destinations=${shippingCoordinates[0]},${shippingCoordinates[1]}&key=${googleMapsConfig.apiKey}`;

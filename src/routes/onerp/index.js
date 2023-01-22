@@ -16,7 +16,6 @@ onerp.post("/requestTrip", async (req, res) => {
   try {
     let storeGeo = destinations[0].geolocation.coordinates;
     let destinationGeo = destinations[1].geolocation.coordinates;
-
     const query = geocollection.near({
       center: new fb.firestore.GeoPoint(storeGeo[0], storeGeo[1]),
       radius: 5000,
@@ -39,6 +38,7 @@ onerp.post("/requestTrip", async (req, res) => {
     let firebaseTrip = {
       cost,
       meters,
+      ticketTotal: onerpInfo.ticketTotal,
       tripId: newTrip._id.toString(),
     };
 
@@ -49,7 +49,6 @@ onerp.post("/requestTrip", async (req, res) => {
         await activeDriversDB.doc(driverInfo.driverId).set(firebaseTrip);
       }
     });
-
     return res.status(201).send(newTrip);
   } catch (err) {
     console.log(err);
