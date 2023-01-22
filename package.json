@@ -29,6 +29,7 @@
     "firebase-admin": "^11.4.1",
     "fs": "^0.0.1-security",
     "generate-password": "^1.7.0",
+    "geofirestore": "^5.2.0",
     "graphql": "^16.5.0",
     "graphql-firebase-subscriptions": "^2.3.0",
     "graphql-ws": "^5.11.2",

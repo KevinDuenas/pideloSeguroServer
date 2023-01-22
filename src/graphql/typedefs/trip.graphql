@@ -37,6 +37,8 @@ type TripDestination {
 type OnerpInfo {
   storeId: ID!
   userId: ID!
+  ticketId: ID!
+  ticketTotal: Float!
 }
 
 # Inputs

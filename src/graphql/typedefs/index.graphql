@@ -28,8 +28,8 @@ type Mutation {
   uploadUserDocumentByToken(document: UserDocumentInput!): User!
 
   # Trip
-  requestTrip(request: RequestTripInput!): Trip
   acceptTrip(tripId: ID): Trip
+  denyTrip(tripId: ID!): Boolean!
 
   # Verification Request
   createDriverVerificationRequest: Boolean
