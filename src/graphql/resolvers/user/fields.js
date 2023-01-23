@@ -38,7 +38,7 @@ const userFields = {
       return true;
     },
     activeTrip: async (_, __, { loaders, user: { id: userId } }) => {
-      const openTrip = await Trip({
+      const openTrip = await Trip.findOne({
         driver: userId,
         tripEndedAt: { $exists: false },
         status: "ACTIVE",
