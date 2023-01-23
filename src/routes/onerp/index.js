@@ -61,7 +61,7 @@ onerp.get("/activeTrips", async (req, res) => {
 
   try {
     const trips = await Trip.find({
-      "onerpInfo.storeId ": storeId,
+      "onerpInfo.storeId": storeId,
       status: { $in: ["DRIVER_PENDING", "ACTIVE"] },
     }).sort({ createdAt: "desc" });
 
