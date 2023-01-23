@@ -53,6 +53,8 @@ input TripDestinationInput {
 input OnerpInfoInput {
   storeId: ID!
   userId: ID!
+  ticketId: ID!
+  ticketTotal: Float
 }
 
 input RequestTripInput {

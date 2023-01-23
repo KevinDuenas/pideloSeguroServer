@@ -1,4 +1,5 @@
-import { User, VerificationRequest, Config } from "@db/models";
+import { User, VerificationRequest, Config, Trip } from "@db/models";
+import resolveTrip from "@graphql/resolvers/trip";
 
 const userFields = {
   User: {
@@ -35,6 +36,17 @@ const userFields = {
       )
         return false;
       return true;
+    },
+    activeTrip: async (_, __, { loaders, user: { id: userId } }) => {
+      const openTrip = await Trip({
+        driver: userId,
+        tripEndedAt: { $exists: false },
+        status: "ACTIVE",
+      });
+      if (!openTrip) {
+        return null;
+      }
+      return resolveTrip.one(openTrip, loaders);
     },
   },
 };

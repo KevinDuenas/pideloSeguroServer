@@ -14,6 +14,7 @@ type User implements TimeStamps {
   # dynamic fields
   status: UserStatusEnum
   requestReady: Boolean
+  activeTrip: Trip
 
   # Interface required
   createdAt: Date!
