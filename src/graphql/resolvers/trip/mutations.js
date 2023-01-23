@@ -1,6 +1,5 @@
 import { User, Config, Trip } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
-import { pubSub } from "@connections/firebase";
 import { firestoreDB } from "@connections/firebase";
 const activeDriversDB = firestoreDB.collection("drivers");
 
@@ -29,6 +28,24 @@ const tripMutations = {
   denyTrip: async (_, { tripId }, { user: { id }, loaders }) => {
     if (!id) throw new Error("Driver token is required.");
     await activeDriversDB.doc(id).delete();
+    return true;
+  },
+  endTrip: async (_, { tripId }, { user: { id }, loaders }) => {
+    if (!id) throw new Error("Driver token is required.");
+    const trip = await Trip.findOneAndUpdate(
+      {
+        _id: tripId,
+        driver: id,
+        tripStartedAt: { $exists: true },
+        status: "ACTIVE",
+        deleted: false,
+      },
+      {
+        status: "CLOSED",
+        tripEndedAt: Date.now(),
+      }
+    );
+    if (!trip) throw new Error("Trip was not found.");
     return true;
   },
 };

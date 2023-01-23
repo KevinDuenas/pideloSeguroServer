@@ -30,6 +30,7 @@ type Mutation {
   # Trip
   acceptTrip(tripId: ID): Trip
   denyTrip(tripId: ID!): Boolean!
+  endTrip(tripId: ID!): Boolean!
 
   # Verification Request
   createDriverVerificationRequest: Boolean
