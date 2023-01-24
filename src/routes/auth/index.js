@@ -43,23 +43,18 @@ auth.post("/sendCode", async (req, res) => {
         .status(409)
         .json("Phone number is already linked to any user.");
     }
-
-    return res.status(200).json({
-      hasAccount: user ? true : false,
-    });
-
-    // twilioClient.verify.v2
-    //   .services(twilioConfig.verifyService)
-    //   .verifications.create({ to: phoneNumber, channel: "sms" })
-    //   .then((verification) => {
-    //     const { status } = verification;
-    //     return res.status(200).json({
-    //       hasAccount: user ? true : false,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     return res.status(500).json(err);
-    //   });
+    twilioClient.verify.v2
+      .services(twilioConfig.verifyService)
+      .verifications.create({ to: phoneNumber, channel: "sms" })
+      .then((verification) => {
+        const { status } = verification;
+        return res.status(200).json({
+          hasAccount: user ? true : false,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json(err);
+      });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -130,44 +125,31 @@ auth.post("/login", async (req, res) => {
         error: "The phoneNumber is not associated with an account.",
       });
 
-    const { refreshToken, accessToken, session } = await tokens.refresh.set(
-      req,
-      res,
-      {
-        user,
-      }
-    );
-    return res.status(200).json({
-      refreshToken,
-      accessToken,
-      session,
-    });
-
-    // twilioClient.verify.v2
-    //   .services(twilioConfig.verifyService)
-    //   .verificationChecks.create({ to: phoneNumber, code: code })
-    //   .then(async (verification_check) => {
-    //     let { status } = verification_check;
-    //     if (status === "approved") {
-    //       const { refreshToken, accessToken, session } =
-    //         await tokens.refresh.set(req, res, {
-    //           user,
-    //         });
-    //       return res.status(200).json({
-    //         refreshToken,
-    //         accessToken,
-    //         session,
-    //       });
-    //     } else {
-    //       res.status(401).json({
-    //         message: "Verification failed",
-    //         error: "Check the verication code or phone number",
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     return res.status(500).json(err);
-    //   });
+    twilioClient.verify.v2
+      .services(twilioConfig.verifyService)
+      .verificationChecks.create({ to: phoneNumber, code: code })
+      .then(async (verification_check) => {
+        let { status } = verification_check;
+        if (status === "approved") {
+          const { refreshToken, accessToken, session } =
+            await tokens.refresh.set(req, res, {
+              user,
+            });
+          return res.status(200).json({
+            refreshToken,
+            accessToken,
+            session,
+          });
+        } else {
+          res.status(401).json({
+            message: "Verification failed",
+            error: "Check the verication code or phone number",
+          });
+        }
+      })
+      .catch((err) => {
+        return res.status(500).json(err);
+      });
   } catch (err) {
     return res.status(500).json(err);
   }
