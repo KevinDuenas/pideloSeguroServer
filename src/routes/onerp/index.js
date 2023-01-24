@@ -82,4 +82,42 @@ onerp.get("/activeTrips", async (req, res) => {
   }
 });
 
+onerp.put("/cancelTrip", async (req, res) => {
+  const { tripId } = req.body;
+
+  try {
+    const canceledTrip = await Trip.findOneAndUpdate(
+      {
+        _id: tripId,
+        status: "DRIVER_PENDING",
+        driver: { $exists: false },
+        tripStartedAt: { $exists: false },
+      },
+      {
+        status: "CANCELED",
+      },
+      {
+        new: true,
+      }
+    );
+    if (!canceledTrip) throw new Error("Trip cannot be canceled.");
+    let jobskill_query = await activeDriversDB.where("tripId", "==", tripId);
+    jobskill_query.get().then(async (querySnapshot) => {
+      await querySnapshot.forEach(async (doc) => {
+        await doc.ref.delete();
+      });
+    });
+    let update_query = await activeTripsDB.where("tripId", "==", tripId);
+    update_query.get().then(async (querySnapshot) => {
+      await querySnapshot.forEach(async (doc) => {
+        await doc.ref.delete();
+      });
+    });
+    return res.status(202).send({ tripCanceled: true });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
 export default onerp;

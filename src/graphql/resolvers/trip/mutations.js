@@ -14,6 +14,7 @@ const tripMutations = {
         _id: tripId,
         driver: { $exists: false },
         tripStartedAt: { $exists: false },
+        status: "DRIVER_PENDING",
       },
       {
         driver: id,
