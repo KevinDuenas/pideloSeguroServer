@@ -7,8 +7,20 @@ const activeTripsDB = firestoreDB.collection("activeTrips");
 const tripMutations = {
   acceptTrip: async (_, { tripId }, { user: { id }, loaders }) => {
     const driver = await User.findOne({ _id: id });
+    const activeDriverTrip = await Trip.findOne({
+      driver: id,
+      status: "ACTIVE",
+      tripStartedAt: { $exists: true },
+      tripEndedAt: { $exists: false },
+    });
+
     if (!id) throw new Error("Driver token is required.");
     if (!driver) throw new Error("Driver was not found.");
+    if (activeDriverTrip) {
+      await activeDriversDB.doc(id).delete();
+      throw new Error("Driver has an active drive.");
+    }
+
     const trip = await Trip.findOneAndUpdate(
       {
         _id: tripId,
