@@ -9,6 +9,7 @@ const onerp = Router();
 const GeoFirestore = geofirestore.initializeApp(firestoreDB);
 const geocollection = GeoFirestore.collection("driversLocation");
 const activeDriversDB = firestoreDB.collection("drivers");
+const activeTripsDB = firestoreDB.collection("activeTrips");
 
 onerp.post("/requestTrip", async (req, res) => {
   const { destinations, onerpInfo, tripType } = req.body;
@@ -36,13 +37,23 @@ onerp.post("/requestTrip", async (req, res) => {
     });
 
     let firebaseTrip = {
-      cost,
+      shippingCost: cost,
       meters,
       ticketTotal: onerpInfo.ticketTotal,
       tripId: newTrip._id.toString(),
+      onerpCost: Math.round(cost * 0.15),
+    };
+
+    let firebaseActiveTrip = {
+      tripId: newTrip._id.toString(),
+      status: "DRIVER_PENDING",
+      storeId: onerpInfo.storeId,
+      ticketId: onerpInfo.ticketId,
+      tripType: "FOOD_DELIVERY",
     };
 
     await newTrip.save();
+    await activeTripsDB.doc(newTrip._id.toString()).set(firebaseActiveTrip);
     query.get().then(async (value) => {
       for (let driver of value.docs) {
         let driverInfo = driver.data();

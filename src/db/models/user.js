@@ -12,6 +12,7 @@ const UserSchema = new Schema(
     email: { type: String, required: false, unique: true },
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     pushNotificationToken: { type: String },
+    balance: { type: Number, required: true, default: 0.0 },
     address: {
       formattedAddress: { type: String },
       extraInfo: { type: String },
