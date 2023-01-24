@@ -6,24 +6,26 @@ const getCommonConfig = (to) => ({
   Destination: {
     ToAddresses: [to],
   },
-  Source: "Equipo ONERP <no-reply@onerp.com.mx>",
+  Source: "Equipo PideloSeguro <no-reply@pideloseguro.net>",
 });
 
 const send = {
-  welcome: (to, { email, password }) =>
+  driverVerificationRequest: (
+    to,
+    { fullname, phoneNumber, email, dob, documentOne, documentTwo }
+  ) =>
     ses
       .sendTemplatedEmail({
         ...getCommonConfig(to),
-        Template: "welcome",
-        TemplateData: JSON.stringify({ email, password }),
-      })
-      .promise(),
-  recoverPassword: (to, { link }) =>
-    ses
-      .sendTemplatedEmail({
-        ...getCommonConfig(to),
-        Template: "recover-password",
-        TemplateData: JSON.stringify({ link }),
+        Template: "driver-verification-request",
+        TemplateData: JSON.stringify({
+          fullname,
+          phoneNumber,
+          email,
+          dob,
+          documentOne,
+          documentTwo,
+        }),
       })
       .promise(),
 };

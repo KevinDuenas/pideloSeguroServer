@@ -1,8 +1,0 @@
-{
-  "Template": {
-    "TemplateName": "welcome",
-    "SubjectPart": "Bienvenido, aquí están tus datos de acceso",
-    "HtmlPart": "<h1>Hola</h1><p>Se te ha brindado acceso a la plataforma de ONERP. Puedes usar tanto tu correo de acceso o tu username para ingresar:</p><ul><li>Correo de acceso: {{email}}</li><li>Contraseña: {{password}}</li></ul><p>Te recomendamos fuertemente cambiar tu contraseña la primera vez que entres desde tu perfil</p>",
-    "TextPart": "Hola,\r\nSe te ha brindado acceso a la plataforma de ONERP. Puedes usar tanto tu correo de acceso o tu username para ingresar:\r\nCorreo de acceso: {{email}}\r\nContraseña: {{password}}\r\nTe recomendamos fuertemente cambiar tu contraseña la primera vez que entres desde tu perfil"
-  }
-}

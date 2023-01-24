@@ -19,6 +19,7 @@ const updateTemplates = async () => {
 
   const templates = readdirSync(join(__dirname, "../templates"));
   const updates = templates.map((template) => {
+    //console.log(`file://${join(__dirname, "../templates", template)}`);
     return childProcess("aws", [
       "ses",
       "update-template",
