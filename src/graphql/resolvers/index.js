@@ -12,6 +12,7 @@ import {
   verificationRequestFields,
 } from "./verificationRequest";
 import { AWSQueries } from "./aws";
+import { reportsQueries } from "./reports";
 
 const resolvers = {
   Query: {
@@ -20,6 +21,7 @@ const resolvers = {
     ...tripQueries,
     ...verificationRequestQueries,
     ...AWSQueries,
+    ...reportsQueries,
     serverDate: () => new Date(),
   },
   Mutation: {

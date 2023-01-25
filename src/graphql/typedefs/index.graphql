@@ -18,6 +18,9 @@ type Query {
   # AWS
   signFileUrl(filePath: String!, fileType: String!): SignedFileUrl!
 
+  # Reports
+  investorsReport: InvestorsReport!
+
   # Others
   serverDate: Date!
 }

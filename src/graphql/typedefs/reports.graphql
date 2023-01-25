@@ -1,0 +1,18 @@
+type InvestorsReport {
+  driversCount: Int!
+  startedTrips: Int!
+  tripsIncome: Float!
+  successTrips: Int!
+  notStartedTrips: Int
+  cancelledTrips: Int!
+  costs: [CostDetail]!
+  earningsPerShare: Float
+  shares: Int
+  utilities: Float
+}
+
+type CostDetail {
+  cost: Float!
+  title: String!
+  description: String
+}
