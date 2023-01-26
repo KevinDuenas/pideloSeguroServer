@@ -26,6 +26,12 @@ const tripQueries = {
       params,
     };
   },
+
+  trip: async (_, { tripId }, { loaders, user: { id } }) => {
+    const trip = await Trip.findOne({ _id: tripId, deleted: false });
+    if (!trip) throw new Error("Trip was not found.");
+    return resolveTrip.one(trip, loaders);
+  },
 };
 
 export default tripQueries;
