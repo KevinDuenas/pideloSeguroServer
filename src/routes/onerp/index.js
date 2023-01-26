@@ -83,8 +83,7 @@ onerp.get("/activeTrips", async (req, res) => {
 });
 
 onerp.get("/trip", async (req, res) => {
-  const { tripId } = req.body;
-
+  const { tripId } = req.query;
   try {
     const trip = await Trip.findOne({
       _id: tripId,
