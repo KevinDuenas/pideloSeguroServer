@@ -82,6 +82,24 @@ onerp.get("/activeTrips", async (req, res) => {
   }
 });
 
+onerp.get("/trip", async (req, res) => {
+  const { tripId } = req.body;
+
+  try {
+    const trip = await Trip.findOne({
+      _id: tripId,
+    });
+
+    if (!trip) {
+      return res.status(404).send();
+    }
+
+    return res.status(200).send(trip);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 onerp.put("/cancelTrip", async (req, res) => {
   const { tripId } = req.body;
 
