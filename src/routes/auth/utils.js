@@ -33,7 +33,7 @@ const tokens = {
   },
   access: {
     get: (user) => {
-      const accessExpiresIn = 60 * 15; // 15 minutes
+      const accessExpiresIn = 60 * 120; // 120 minutes - 2 hours
 
       const accessToken = sign(
         {
