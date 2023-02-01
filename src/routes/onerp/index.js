@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { User, Config, Trip } from "@db/models";
+import { User, Config, Trip, Folio } from "@db/models";
 import * as geofirestore from "geofirestore";
 import fb from "firebase-admin";
 import { firestoreDB } from "@connections/firebase";
 import tripsHelper from "@graphql/resolvers/utils/trips";
+import { folio } from "@graphql/resolvers/utils/folio";
 
 const onerp = Router();
 const GeoFirestore = geofirestore.initializeApp(firestoreDB);
@@ -51,6 +52,11 @@ onerp.post("/requestTrip", async (req, res) => {
       ticketId: onerpInfo.ticketId,
       tripType: "FOOD_DELIVERY",
     };
+
+    const nextFolio = await folio.foodDelivery();
+    newTrip.folio = nextFolio;
+    firebaseActiveTrip.folio = nextFolio;
+    firebaseTrip.folio = nextFolio;
 
     await newTrip.save();
     await activeTripsDB.doc(newTrip._id.toString()).set(firebaseActiveTrip);
