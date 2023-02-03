@@ -16,6 +16,7 @@ type Trip {
 
   # Dynamics
   routeUrl: String
+  trackingUrl: String
 
   # Interface required
   createdAt: Date!
