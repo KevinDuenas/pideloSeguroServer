@@ -10,6 +10,7 @@ type User implements TimeStamps {
   profileImg: String
   documents: [UserDocument]!
   pushNotificationToken: String
+  overallRole: OverallRole!
 
   # dynamic fields
   status: UserStatusEnum
@@ -80,4 +81,13 @@ enum UserStatusEnum {
   PENDING
   APPROVED
   BLOCKED
+}
+
+enum OverallRole {
+  ADMIN
+  USER
+  SUPPORT
+  INVESTOR
+  STOCKHOLDER
+  DRIVER
 }

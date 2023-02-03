@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import mongooseDelete from "mongoose-delete";
+import { overallRoles } from "@config/constants/user";
 
 const UserSchema = new Schema(
   {
@@ -13,6 +14,12 @@ const UserSchema = new Schema(
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     pushNotificationToken: { type: String },
     balance: { type: Number, required: true, default: 0.0 },
+    overallRole: {
+      type: String,
+      required: true,
+      enum: Object.keys(overallRoles),
+      default: "DRIVER",
+    },
     address: {
       formattedAddress: { type: String },
       extraInfo: { type: String },
