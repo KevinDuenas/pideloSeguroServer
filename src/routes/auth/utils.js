@@ -37,7 +37,8 @@ const tokens = {
 
       const accessToken = sign(
         {
-          userId: user.id, // Username needed to inmediately detect if a profile page is owned
+          userId: user.id,
+          overallRole: user.overallRole,
         },
         secrets.access,
         {
@@ -58,6 +59,7 @@ const tokens = {
       const refreshToken = sign(
         {
           userId: user.id,
+          overallRole: user.overallRole,
         },
         secrets.refresh,
         {

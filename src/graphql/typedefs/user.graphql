@@ -58,6 +58,15 @@ input UserUpdateInput {
   pushNotificationToken: String
 }
 
+input AdminCreateInput {
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  email: String!
+  overallRole: OverallRole!
+  password: String!
+}
+
 input UserDocumentInput {
   _id: ID!
   name: String!

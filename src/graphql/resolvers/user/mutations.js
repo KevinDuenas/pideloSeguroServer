@@ -1,5 +1,6 @@
 import { User, Development } from "@db/models";
 import { generate } from "generate-password";
+import { hashSync, compareSync } from "bcryptjs";
 import resolveUser from "@graphql/resolvers/user";
 
 const userMutations = {
@@ -14,6 +15,13 @@ const userMutations = {
       { new: true }
     );
     return resolveUser.one(updatedUser, loaders);
+  },
+  createAdminRole: async (_, { user }, { user: { id }, loaders }) => {
+    const repeteadEmail = await User.findOne({ email: user.email });
+    if (repeteadEmail) throw new Error("Email already in use.");
+    const newUser = new User({ ...user, password: hashSync(user.password) });
+    const savedUser = await newUser.save();
+    return resolveUser.one(savedUser, loaders);
   },
   uploadUserDocumentByToken: async (
     _,

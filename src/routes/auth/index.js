@@ -155,6 +155,37 @@ auth.post("/login", async (req, res) => {
   }
 });
 
+auth.post("/loginAdmin", async (req, res) => {
+  const { email, password, expires = true } = req.body;
+  try {
+    const user = await User.findOne({
+      email,
+      overallRole: { $in: ["ADMIN", "SUPPORT", "INVESTOR", "STOCKHOLDER"] },
+    });
+    if (!user || !compareSync(password, user.password))
+      return res.status(401).json({
+        message: "Login failed",
+        error: "Email and password don't match",
+      });
+
+    const { refreshToken, accessToken, session } = await tokens.refresh.set(
+      req,
+      res,
+      {
+        user,
+        expires,
+      }
+    );
+    return res.status(200).json({
+      refreshToken,
+      accessToken,
+      session,
+    });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 auth.post("/logout", async (req, res) => {
   const sessionId = req.cookies[cookie.names.session];
   const refreshToken = req.cookies[cookie.names.refreshToken];

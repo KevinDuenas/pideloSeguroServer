@@ -6,6 +6,7 @@ const UserSchema = new Schema(
   {
     firstName: { type: String, required: false, index: true },
     firstLastName: { type: String, required: false, index: true },
+    password: { type: String, required: true },
     secondLastName: { type: String, required: false, index: true },
     phoneNumber: { type: String, required: false },
     dob: { type: Date, required: false },
@@ -21,18 +22,21 @@ const UserSchema = new Schema(
       default: "DRIVER",
     },
     address: {
-      formattedAddress: { type: String },
-      extraInfo: { type: String },
-      // Setup based on https://docs.mongodb.com/manual/reference/geojson/
-      geolocation: {
-        type: {
-          type: String,
-          default: "Point",
-          enum: ["Point"],
+      type: {
+        formattedAddress: { type: String },
+        extraInfo: { type: String },
+        // Setup based on https://docs.mongodb.com/manual/reference/geojson/
+        geolocation: {
+          type: {
+            type: String,
+            default: "Point",
+            enum: ["Point"],
+          },
+          // [lng, lat]
+          coordinates: { type: [Number] },
         },
-        // [lng, lat]
-        coordinates: { type: [Number] },
       },
+      required: false,
     },
     documents: [
       {
