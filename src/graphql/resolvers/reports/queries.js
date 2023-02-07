@@ -43,8 +43,8 @@ const reportsQueries = {
         description: "Gastos por publicidad en redes sociales entre otros.",
       },
       {
-        cost: 5000,
-        title: "252",
+        cost: 252,
+        title: "Otros",
         description: "Margen por imprevistos.",
       },
     ];
