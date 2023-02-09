@@ -6,6 +6,7 @@ import { cookie } from "@config/constants";
 import { tokens } from "./utils";
 import { twilioConfig, env } from "@config/environment";
 import { twilioClient } from "@connections/twilio";
+import { generate } from "generate-password";
 
 const auth = Router();
 
@@ -79,6 +80,7 @@ auth.post("/register", async (req, res) => {
       firstLastName,
       secondLastName,
       phoneNumber,
+      password: generate(),
     });
 
     twilioClient.verify.v2
