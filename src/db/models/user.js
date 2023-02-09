@@ -11,7 +11,7 @@ const UserSchema = new Schema(
     phoneNumber: { type: String, required: false },
     dob: { type: Date, required: false },
     profileImg: { type: String },
-    email: { type: String, required: false, unique: true },
+    email: { type: String, required: true, unique: true },
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     pushNotificationToken: { type: String },
     balance: { type: Number, required: true, default: 0.0 },

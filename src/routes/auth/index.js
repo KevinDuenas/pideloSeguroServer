@@ -61,97 +61,71 @@ auth.post("/sendCode", async (req, res) => {
   }
 });
 
-auth.post("/register", async (req, res) => {
-  const { phoneNumber, firstName, firstLastName, secondLastName, code } =
+auth.post("/registerDriver", async (req, res) => {
+  const { email, firstName, firstLastName, secondLastName, password } =
     req.body;
 
   try {
-    const phoneSearch = await User.findOne({
-      phoneNumber: phoneNumber,
+    const emailSearch = await User.findOne({
+      email,
     });
-    if (phoneSearch)
+    if (emailSearch)
       return res.status(401).json({
-        message: "Phone number already in user.",
-        error: "The phoneNumber already has an account.",
+        message: "Email already in user.",
+        error: "The Email already has an account.",
       });
 
     const user = new User({
       firstName,
       firstLastName,
       secondLastName,
-      phoneNumber,
-      password: generate(),
+      email,
+      password: hashSync(password),
     });
-
-    twilioClient.verify.v2
-      .services(twilioConfig.verifyService)
-      .verificationChecks.create({ to: phoneNumber, code: code })
-      .then(async (verification_check) => {
-        let { status } = verification_check;
-
-        if (status === "approved") {
-          await user.save();
-          const { refreshToken, accessToken, session } =
-            await tokens.refresh.set(req, res, {
-              user,
-            });
-          return res.status(200).json({
-            refreshToken,
-            accessToken,
-            session,
-          });
-        } else {
-          res.status(401).json({
-            message: "Verification failed",
-            error: "Check the verication code or phone number",
-          });
-        }
-      })
-      .catch((err) => {
-        return res.status(500).json(err);
-      });
+    const userSaved = await user.save();
+    const { refreshToken, accessToken, session } = await tokens.refresh.set(
+      req,
+      res,
+      {
+        user: userSaved,
+      }
+    );
+    return res.status(200).json({
+      refreshToken,
+      accessToken,
+      session,
+    });
   } catch (err) {
     return res.status(500).json(err);
   }
 });
 
-auth.post("/login", async (req, res) => {
-  const { phoneNumber, code } = req.body;
+auth.post("/loginDriver", async (req, res) => {
+  const { email, password, expires = true } = req.body;
   try {
     const user = await User.findOne({
-      phoneNumber: phoneNumber,
+      email,
+      overallRole: { $in: ["DRIVER"] },
     });
-    if (!user)
+    if (!user || !compareSync(password, user.password))
       return res.status(401).json({
-        message: "Sending Code Failed",
-        error: "The phoneNumber is not associated with an account.",
+        message: "Login failed",
+        error: "Email and password don't match",
       });
 
-    twilioClient.verify.v2
-      .services(twilioConfig.verifyService)
-      .verificationChecks.create({ to: phoneNumber, code: code })
-      .then(async (verification_check) => {
-        let { status } = verification_check;
-        if (status === "approved") {
-          const { refreshToken, accessToken, session } =
-            await tokens.refresh.set(req, res, {
-              user,
-            });
-          return res.status(200).json({
-            refreshToken,
-            accessToken,
-            session,
-          });
-        } else {
-          res.status(401).json({
-            message: "Verification failed",
-            error: "Check the verication code or phone number",
-          });
-        }
-      })
-      .catch((err) => {
-        return res.status(500).json(err);
-      });
+    const { refreshToken, accessToken, session } = await tokens.refresh.set(
+      req,
+      res,
+      {
+        user,
+        expires,
+      }
+    );
+    return res.status(200).json({
+      refreshToken,
+      accessToken,
+      session,
+    });
   } catch (err) {
     return res.status(500).json(err);
   }

@@ -8,8 +8,6 @@ const cookie = {
   domain: env.production ? ".pideloseguro.net" : ".pideloseguro.xyz",
 };
 
-console.log("the cookie", cookie);
-
 const defaultParams = { page: 1, pageSize: Number.MAX_SAFE_INTEGER };
 
 const defaultRange = {
