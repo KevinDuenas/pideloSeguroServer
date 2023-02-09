@@ -1,10 +1,14 @@
+import { env } from "@config/environment";
+
 const cookie = {
   names: {
     session: "session",
     refreshToken: "refresh-token",
   },
-  domain: ".pideloseguro.net",
+  domain: env.production ? ".pideloseguro.net" : ".pideloseguro.xyz",
 };
+
+console.log("the cookie", cookie);
 
 const defaultParams = { page: 1, pageSize: Number.MAX_SAFE_INTEGER };
 
