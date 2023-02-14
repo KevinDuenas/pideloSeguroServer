@@ -88,6 +88,30 @@ onerp.get("/activeTrips", async (req, res) => {
   }
 });
 
+onerp.put("/updateTrip", async (req, res) => {
+  const { tripId, status } = req.body;
+  try {
+    if (status !== "ON_DELIVER") return res.status(401).send();
+    const trip = await Trip.findOneAndUpdate(
+      {
+        _id: tripId,
+        driver: { $exists: true },
+      },
+      {
+        status,
+      },
+      { new: true }
+    );
+
+    if (!trip) {
+      return res.status(404).send();
+    }
+    return res.status(200).send(trip);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 onerp.get("/trip", async (req, res) => {
   const { tripId } = req.query;
   try {
@@ -138,7 +162,6 @@ onerp.put("/cancelTrip", async (req, res) => {
     });
     return res.status(202).send({ tripCanceled: true });
   } catch (err) {
-    console.log(err);
     return res.status(500).json(err);
   }
 });

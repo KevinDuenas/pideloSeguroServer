@@ -40,6 +40,8 @@ type OnerpInfo {
   userId: ID!
   ticketId: ID!
   ticketTotal: Float!
+  clientName: String
+  clientPhone: String
 }
 
 # Inputs
@@ -56,6 +58,8 @@ input OnerpInfoInput {
   userId: ID!
   ticketId: ID!
   ticketTotal: Float
+  clientName: String
+  clientPhone: String
 }
 
 input RequestTripInput {
@@ -72,6 +76,8 @@ enum TripTypesEnum {
 
 enum TripStatusEnum {
   DRIVER_PENDING
+  FOOD_PENDING
+  AT_DELIVER
   ACTIVE
   CLOSED
   CANCELED

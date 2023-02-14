@@ -31,7 +31,7 @@ const tripMutations = {
       {
         driver: id,
         tripStartedAt: Date.now(),
-        status: "ACTIVE",
+        status: "FOOD_PENDING",
       },
       { new: true }
     );
