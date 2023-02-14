@@ -1,9 +1,9 @@
 import fb from "firebase-admin";
-import serviceAccount from "./../../../serviceAccountKey.json";
+import { firebaseAdminConfig, firebaseDatabaseURL } from "@config/environment";
 
 fb.initializeApp({
-  credential: fb.credential.cert(serviceAccount),
-  databaseURL: "https://pideloseguro-default-rtdb.firebaseio.com",
+  credential: fb.credential.cert(firebaseAdminConfig),
+  databaseURL: firebaseDatabaseURL,
 });
 
 const firestoreDB = fb.firestore();
