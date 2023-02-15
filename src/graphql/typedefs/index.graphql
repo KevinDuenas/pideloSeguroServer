@@ -37,6 +37,9 @@ type Mutation {
   denyTrip(tripId: ID!): Boolean!
   endTrip(tripId: ID!): Boolean!
 
+  # Automobile
+  addAutomobileByToken(automobile: AutomobileCreateInput!): Automobile!
+
   # Verification Request
   createDriverVerificationRequest: Boolean
 

@@ -1,11 +1,18 @@
 import { verify } from "jsonwebtoken";
 import DataLoader from "dataloader";
 import { secrets } from "@config/environment";
-import { User, Config, Trip, VerificationRequest } from "@db/models";
+import {
+  User,
+  Config,
+  Trip,
+  VerificationRequest,
+  Automobile,
+} from "@db/models";
 import resolveUser from "@graphql/resolvers/user";
 import resolveConfig from "@graphql/resolvers/user";
 import resolveTrip from "@graphql/resolvers/trip";
 import resolveVerificationRequest from "@graphql/resolvers/verificationRequest";
+import resolveAutomobile from "@graphql/resolvers/automobile";
 
 const createLoader = (Model, resolve) => {
   const loader = new DataLoader(async (ids) => {
@@ -48,6 +55,7 @@ const context = async ({ req }) => {
 
   const loaders = {
     user: createLoader(User, resolveUser),
+    automobile: createLoader(Automobile, resolveAutomobile),
     config: createLoader(Config, resolveConfig),
     trip: createLoader(Trip, resolveTrip),
     verificationRequest: createLoader(
