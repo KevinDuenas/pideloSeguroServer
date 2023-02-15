@@ -1,15 +1,47 @@
 # Types
 type Automobile implements TimeStamps {
   id: ID!
-  owner: User!
+  driver: User!
   brand: String!
   model: String!
   plates: String!
-  color: String!
-  verificationStatus: String!
+  color: AutomobileColorsEnum!
+  verificationStatus: AutomobileStatusEnum!
   type: String!
 
   # Interface required
   createdAt: Date!
   updatedAt: Date!
+}
+
+# Inputs
+input AutomobileCreateInput {
+  brand: String!
+  model: String!
+  plates: String!
+  color: AutomobileColorsEnum!
+  type: String!
+}
+
+# Enums
+enum AutomobileStatusEnum {
+  MISSING
+  PENDING
+  APPROVED
+  BLOCKED
+}
+
+enum AutomobileTypeEnum {
+  MOTORCYCLE
+  CAR
+}
+
+enum AutomobileColorsEnum {
+  BROWN
+  WHITE
+  BLACK
+  GRAY
+  YELLOW
+  RED
+  ORANGE
 }
