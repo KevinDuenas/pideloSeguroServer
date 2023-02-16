@@ -2,7 +2,7 @@
   "Template": {
     "TemplateName": "driver-verification-request",
     "SubjectPart": "Un conductor solicito verificación",
-    "HtmlPart": "<h1>Verificación del conductor</h1><p>Un conductor ha solicitado verificarse. Estos son sus datos.</p><ul><li>Nombre: {{fullname}}</li><li>Celular: {{phoneNumber}}</li><li>Correo: {{email}}</li><li>Fecha de nacimiento: {{dob}}</li><li>INE: {{documentOne}}</li><li>Comprobante de domicilio: {{documentTwo}}</li></ul><p>",
-    "TextPart": "Verificación del conductor\r\nUn conductor ha solicitado verificarse. Estos son sus datos.\r\nNombre: {{fullname}}\r\nCelular: {{phoneNumber}}\r\nFecha de nacimiento: {{dob}}\r\nINE: {{documentOne}}\r\nComprobante de domicilio: {{documentTwo}}\r\n"
+    "HtmlPart": "<h1>Verificación del conductor</h1><p>Un conductor ha solicitado verificarse. Estos son sus datos.</p><ul><li>Nombre: {{fullname}}</li><li>Celular: {{phoneNumber}}</li><li>Correo: {{email}}</li><li>Fecha de nacimiento: {{dob}}</li><li>INE: {{documentOne}}</li><li>Comprobante de domicilio: {{documentTwo}}</li></ul><ul><li><a href=\"{{validateLink}}\">Clic para Validar</a></li></ul><p>",
+    "TextPart": "Verificación del conductor\r\nUn conductor ha solicitado verificarse. Estos son sus datos.\r\nNombre: {{fullname}}\r\nCelular: {{phoneNumber}}\r\nFecha de nacimiento: {{dob}}\r\nINE: {{documentOne}}\r\nComprobante de domicilio: {{documentTwo}}\r\n Link para aceptar: {{validateLink}}\r\n"
   }
 }

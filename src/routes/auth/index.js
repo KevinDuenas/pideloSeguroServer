@@ -26,41 +26,6 @@ auth.get("/access", async (req, res) => {
   }
 });
 
-auth.post("/sendCode", async (req, res) => {
-  const { phoneNumber, isLogin } = req.body;
-
-  try {
-    const user = await User.findOne({
-      phoneNumber: phoneNumber,
-    });
-    if (isLogin && !user) {
-      return res
-        .status(404)
-        .json("Phone number is already linked to any user.");
-    }
-
-    if (!isLogin && user) {
-      return res
-        .status(409)
-        .json("Phone number is already linked to any user.");
-    }
-    twilioClient.verify.v2
-      .services(twilioConfig.verifyService)
-      .verifications.create({ to: phoneNumber, channel: "sms" })
-      .then((verification) => {
-        const { status } = verification;
-        return res.status(200).json({
-          hasAccount: user ? true : false,
-        });
-      })
-      .catch((err) => {
-        return res.status(500).json(err);
-      });
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
-
 auth.post("/registerDriver", async (req, res) => {
   const { email, firstName, firstLastName, secondLastName, password } =
     req.body;

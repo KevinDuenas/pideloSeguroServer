@@ -12,7 +12,15 @@ const getCommonConfig = (to) => ({
 const send = {
   driverVerificationRequest: (
     to,
-    { fullname, phoneNumber, email, dob, documentOne, documentTwo }
+    {
+      fullname,
+      phoneNumber,
+      email,
+      dob,
+      documentOne,
+      documentTwo,
+      validateLink,
+    }
   ) =>
     ses
       .sendTemplatedEmail({
@@ -25,6 +33,7 @@ const send = {
           dob,
           documentOne,
           documentTwo,
+          validateLink,
         }),
       })
       .promise(),

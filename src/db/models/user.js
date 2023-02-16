@@ -48,6 +48,8 @@ const UserSchema = new Schema(
         rejectedReason: { type: String },
       },
     ],
+    passwordRecoveryToken: { type: String },
+    validateToken: { type: String },
   },
   {
     timestamps: true,
