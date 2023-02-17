@@ -37,6 +37,14 @@ const send = {
         }),
       })
       .promise(),
+  recoverPassword: (to, { link }) =>
+    ses
+      .sendTemplatedEmail({
+        ...getCommonConfig(to),
+        Template: "recover-password-ps",
+        TemplateData: JSON.stringify({ link }),
+      })
+      .promise(),
 };
 
 export { send };

@@ -138,6 +138,33 @@ auth.post("/logout", async (req, res) => {
   }
 });
 
+auth.post("/recover", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const passwordRecoveryToken = tokens.passwordRecovery.get(user);
+      user.passwordRecoveryToken = passwordRecoveryToken;
+      let recoveryLink = "";
+      if (env.development) {
+        // Note that this is the usual port where React App is running
+        // Actually. the backend does not have a way to know which port is used
+        recoveryLink = `http://localhost:3000/reset?token=${passwordRecoveryToken}`;
+      } else if (env.staging) {
+        recoveryLink = `https://pideloseguro.xyz/reset?token=${passwordRecoveryToken}`;
+      } else if (env.production) {
+        recoveryLink = `https://pideloseguro.net/reset?token=${passwordRecoveryToken}`;
+      }
+      await send.recoverPassword(user.email, { link: recoveryLink });
+      await user.save();
+    }
+    return res.status(200).send("OK");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
 auth.post("/validate", async (req, res) => {
   const { passwordRecoveryToken } = req.body;
   try {
