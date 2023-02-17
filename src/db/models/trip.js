@@ -38,6 +38,7 @@ const TripSchema = new Schema(
       },
     ],
     tripType: { type: String },
+    psFee: { type: Number, required: true, default: 0 },
     onerpInfo: {
       type: {
         storeId: {
