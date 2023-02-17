@@ -1,5 +1,12 @@
-import { User, VerificationRequest, Config, Trip } from "@db/models";
+import {
+  User,
+  VerificationRequest,
+  Config,
+  Trip,
+  Automobile,
+} from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
+import resolveAutomobile from "@graphql/resolvers/automobile";
 
 const userFields = {
   User: {
@@ -47,6 +54,15 @@ const userFields = {
         return null;
       }
       return resolveTrip.one(openTrip, loaders);
+    },
+    automobile: async (_, __, { loaders, user: { id: userId } }) => {
+      const automobile = await Automobile.findOne({
+        driver: userId,
+        deleted: false,
+      });
+
+      if (!automobile) return null;
+      return resolveAutomobile.one(automobile, loaders);
     },
   },
 };

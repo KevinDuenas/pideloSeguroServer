@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongooseDelete from "mongoose-delete";
 
 const AutomobileSchema = new Schema(
   {
@@ -12,5 +13,7 @@ const AutomobileSchema = new Schema(
   },
   { timestamps: true }
 );
+
+AutomobileSchema.plugin(mongooseDelete);
 
 export default model("Automobile", AutomobileSchema);

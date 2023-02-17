@@ -19,6 +19,7 @@ type User implements TimeStamps {
   status: UserStatusEnum
   requestReady: Boolean
   activeTrip: Trip
+  automobile: Automobile
 
   # Interface required
   createdAt: Date!
