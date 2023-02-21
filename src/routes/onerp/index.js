@@ -35,6 +35,7 @@ onerp.post("/requestTrip", async (req, res) => {
       cost,
       meters,
       status: "DRIVER_PENDING",
+      psFee: Math.round(cost * 0.15),
     });
 
     let firebaseTrip = {
@@ -59,7 +60,11 @@ onerp.post("/requestTrip", async (req, res) => {
     firebaseTrip.folio = nextFolio;
 
     await newTrip.save();
+
+    // Set active trip on firebase
     await activeTripsDB.doc(newTrip._id.toString()).set(firebaseActiveTrip);
+
+    // Set trip to all drivers at 5 KM
     query.get().then(async (value) => {
       for (let driver of value.docs) {
         let driverInfo = driver.data();

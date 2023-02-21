@@ -1,6 +1,7 @@
 import { User, Config, Trip } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import { firestoreDB } from "@connections/firebase";
+import axios from "axios";
 const activeDriversDB = firestoreDB.collection("drivers");
 const activeTripsDB = firestoreDB.collection("activeTrips");
 
@@ -36,18 +37,38 @@ const tripMutations = {
       { new: true }
     );
     if (!trip) throw new Error("Trip is not available any more.");
+
+    // Remove all trips request from drivers on firebase
     let jobskill_query = await activeDriversDB.where("tripId", "==", tripId);
     jobskill_query.get().then(async (querySnapshot) => {
       await querySnapshot.forEach(async (doc) => {
         await doc.ref.delete();
       });
     });
+
+    // Update active trip status on firebase
     let update_query = await activeTripsDB.where("tripId", "==", tripId);
     update_query.get().then(async (querySnapshot) => {
       await querySnapshot.forEach(async (doc) => {
-        await doc.ref.update({ status: "ACTIVE" });
+        await doc.ref.update({ status: "FOOD_PENDING" });
       });
     });
+
+    // Use ONERP hook
+    // let endpointUrl = "";
+    // if (env.development) {
+    //   validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
+    // } else if (env.staging) {
+    //   validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    // } else if (env.production) {
+    //   validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    // }
+
+    // await axios.put(endpointUrl, {
+    //   ticketId: onerpInfo.ticketId,
+    //   tripId: newTrip._id.toString(),
+    // });
+
     return resolveTrip.one(trip, loaders);
   },
 
@@ -63,7 +84,6 @@ const tripMutations = {
         _id: tripId,
         driver: id,
         tripStartedAt: { $exists: true },
-        status: "ACTIVE",
         deleted: false,
       },
       {
