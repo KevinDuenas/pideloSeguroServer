@@ -96,7 +96,7 @@ onerp.get("/activeTrips", async (req, res) => {
 onerp.put("/updateTrip", async (req, res) => {
   const { tripId, status } = req.body;
   try {
-    if (status !== "ON_DELIVER") return res.status(401).send();
+    if (status !== "AT_DELIVER") return res.status(401).send();
     const trip = await Trip.findOneAndUpdate(
       {
         _id: tripId,
