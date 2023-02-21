@@ -79,8 +79,7 @@ onerp.post("/requestTrip", async (req, res) => {
 });
 
 onerp.get("/activeTrips", async (req, res) => {
-  const { storeId } = req.body;
-
+  const { storeId } = req.query;
   try {
     const trips = await Trip.find({
       "onerpInfo.storeId": storeId,
