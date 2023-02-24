@@ -18,6 +18,7 @@ import {
 } from "./automobile";
 import { AWSQueries } from "./aws";
 import { reportsQueries } from "./reports";
+import { paymentMutations, paymentQueries } from "./payment";
 
 const resolvers = {
   Query: {
@@ -28,6 +29,7 @@ const resolvers = {
     ...AWSQueries,
     ...reportsQueries,
     ...automobileQueries,
+    ...paymentQueries,
     serverDate: () => new Date(),
   },
   Mutation: {
@@ -36,6 +38,7 @@ const resolvers = {
     ...tripMutations,
     ...verificationRequestMutations,
     ...automobileMutations,
+    ...paymentMutations,
   },
   Subscription: {
     ...tripSubscriptions,

@@ -7,12 +7,14 @@ import {
   Trip,
   VerificationRequest,
   Automobile,
+  Payment,
 } from "@db/models";
 import resolveUser from "@graphql/resolvers/user";
 import resolveConfig from "@graphql/resolvers/user";
 import resolveTrip from "@graphql/resolvers/trip";
 import resolveVerificationRequest from "@graphql/resolvers/verificationRequest";
 import resolveAutomobile from "@graphql/resolvers/automobile";
+import resolvePayment from "@graphql/resolvers/payment";
 
 const createLoader = (Model, resolve) => {
   const loader = new DataLoader(async (ids) => {
@@ -62,6 +64,7 @@ const context = async ({ req }) => {
       VerificationRequest,
       resolveVerificationRequest
     ),
+    payment: createLoader(Payment, resolvePayment),
   };
 
   return { user: { id: userId }, loaders };

@@ -48,6 +48,7 @@ const UserSchema = new Schema(
         rejectedReason: { type: String },
       },
     ],
+    stripeCustomerId: { type: String },
     passwordRecoveryToken: { type: String },
     validateToken: { type: String },
   },

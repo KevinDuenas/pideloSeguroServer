@@ -6,7 +6,7 @@ import cors from "cors";
 // Graphql stuff
 import { apolloServer, httpServer } from "@graphql";
 
-import { auth, onerp, main } from "@routes";
+import { auth, onerp, main, stripeRouter } from "@routes";
 import healthCheck from "@middlewares/health-check";
 
 const corsConfig = {
@@ -32,6 +32,7 @@ const start = async () => {
   app.use("/auth", auth);
   app.use("/onerp", onerp);
   app.use("/main", main);
+  app.use("/stripe", stripeRouter);
   app.use("/", healthCheck);
 };
 
