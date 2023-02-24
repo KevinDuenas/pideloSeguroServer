@@ -21,6 +21,7 @@ type User implements TimeStamps {
   requestReady: Boolean
   activeTrip: Trip
   automobile: Automobile
+  defaultPaymentMethod: UserDefaultPaymentMethod
 
   # Interface required
   createdAt: Date!
@@ -47,6 +48,14 @@ type UserDocumentStatus {
   formatsAccepted: [DocumentsTypes]!
   uploadRequired: Boolean
   description: String
+}
+
+type UserDefaultPaymentMethod {
+  expYear: Int
+  expMonth: Int
+  lastFourDigits: String
+  brand: String
+  stripeId: String
 }
 
 # Inputs

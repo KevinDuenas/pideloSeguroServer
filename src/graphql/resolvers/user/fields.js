@@ -7,6 +7,7 @@ import {
 } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import resolveAutomobile from "@graphql/resolvers/automobile";
+import stripe from "@connections/stripe";
 
 const userFields = {
   User: {
@@ -63,6 +64,28 @@ const userFields = {
 
       if (!automobile) return null;
       return resolveAutomobile.one(automobile, loaders);
+    },
+    defaultPaymentMethod: async (
+      { stripeCustomerId },
+      __,
+      { loaders, user: { id: userId } }
+    ) => {
+      if (!stripeCustomerId) return null;
+
+      const paymentMethod = await stripe.paymentMethods.list({
+        customer: stripeCustomerId,
+        type: "card",
+      });
+      const paymentId = paymentMethod?.data[0]?.id;
+      const card = paymentMethod?.data[0]?.card;
+      if (!card) return null;
+      return {
+        expYear: card.exp_year,
+        expMonth: card.exp_month,
+        lastFourDigits: card.last4,
+        brand: card.brand,
+        stripeId: paymentId,
+      };
     },
   },
 };
