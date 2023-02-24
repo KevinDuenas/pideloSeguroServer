@@ -11,6 +11,7 @@ type User implements TimeStamps {
   documents: [UserDocument]!
   pushNotificationToken: String
   overallRole: OverallRole!
+  stripeCustomerId: String
 
   # Investor fields
   shares: Int

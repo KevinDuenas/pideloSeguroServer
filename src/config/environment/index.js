@@ -57,6 +57,11 @@ const googleMapsConfig = {
   apiKey: process.env.GOOGLE_MAPS_API_KEY,
 };
 
+const stripeConfig = {
+  apiKey: process.env.STRIPE_API_KEY,
+  webhookKey: process.env.STRIPE_WEBHOOKS_KEY,
+};
+
 export {
   port,
   secrets,
@@ -68,4 +73,5 @@ export {
   googleMapsConfig,
   firebaseAdminConfig,
   firebaseDatabaseURL,
+  stripeConfig,
 };

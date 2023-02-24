@@ -1,0 +1,37 @@
+type Payment implements TimeStamps {
+  id: ID
+  stripePaymentIntentId: String
+  amount: Float!
+  user: User!
+  status: PaymentStatus!
+  type: PaymentType!
+  method: PaymentMethod!
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+input PaymentCreateInput {
+  amount: Float!
+  user: ID!
+  status: PaymentStatus!
+  type: PaymentType!
+  method: PaymentMethod!
+}
+
+enum PaymentStatus {
+  INITIALIZED
+  SUCCEEDED
+  FAILED
+  PROCESSING
+}
+
+enum PaymentType {
+  DRIVER_RECHARGE
+}
+
+enum PaymentMethod {
+  STRIPE
+  DEPOSIT
+}

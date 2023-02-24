@@ -22,6 +22,9 @@ type Query {
   # Reports
   investorsReport: InvestorsReport!
 
+  # Payments
+  driverPayments: [Payment]!
+
   # Others
   serverDate: Date!
 }
@@ -45,6 +48,9 @@ type Mutation {
 
   # Config - Documents
   createDocument(document: DocumentCreateInput!): Boolean!
+
+  # Payments
+  createStripePayment(amount: Int!): String!
 
   # Others
   serverDate: Date!
