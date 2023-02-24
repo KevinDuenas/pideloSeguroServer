@@ -55,7 +55,6 @@ type UserDefaultPaymentMethod {
   expMonth: Int
   lastFourDigits: String
   brand: String
-  stripeId: String
 }
 
 # Inputs

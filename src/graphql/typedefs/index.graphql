@@ -50,7 +50,9 @@ type Mutation {
   createDocument(document: DocumentCreateInput!): Boolean!
 
   # Payments
-  createStripePayment(amount: Int!): String!
+  createStripePayment(amountInCents: Int!): Payment
+  addStripePaymentMethod: String!
+  removePaymentMethod: Boolean!
 
   # Others
   serverDate: Date!
