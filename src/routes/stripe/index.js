@@ -3,7 +3,7 @@ import stripe from "@connections/stripe";
 import { Payment } from "@db/models";
 import { stripeConfig } from "@config/environment";
 
-const endpointSecret = stripeConfig.webhookKey ?? undefined;
+const endpointSecret = undefined;
 const express = require("express");
 const stripeRouter = Router();
 
