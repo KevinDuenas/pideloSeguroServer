@@ -61,6 +61,9 @@ const stripeConfig = {
   apiKey: process.env.STRIPE_API_KEY,
   webhookKey: process.env.STRIPE_WEBHOOKS_KEY,
 };
+const ONERPApiKey = process.env.ONERP_API_KEY;
+
+const pideloSeguroApiKey = process.env.PS_API_KEY;
 
 export {
   port,
@@ -74,4 +77,6 @@ export {
   firebaseAdminConfig,
   firebaseDatabaseURL,
   stripeConfig,
+  ONERPApiKey,
+  pideloSeguroApiKey,
 };
