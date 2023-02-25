@@ -4,10 +4,12 @@ import {
   Config,
   Trip,
   Automobile,
+  Payment,
 } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import resolveAutomobile from "@graphql/resolvers/automobile";
 import stripe from "@connections/stripe";
+import { Types } from "mongoose";
 
 const userFields = {
   User: {
@@ -86,6 +88,40 @@ const userFields = {
         brand: card.brand,
         stripeId: paymentId,
       };
+    },
+    balance: async (_, __, { loaders, user: { id: userId } }) => {
+      let incomes = await Payment.aggregate([
+        {
+          $match: {
+            deleted: false,
+            user: Types.ObjectId(userId),
+            status: "SUCCEEDED",
+          },
+        },
+        {
+          $group: {
+            _id: "incomes",
+            amount: { $sum: "$amount" },
+          },
+        },
+      ]);
+      let outcomes = await Trip.aggregate([
+        {
+          $match: {
+            deleted: false,
+            driver: Types.ObjectId(userId),
+          },
+        },
+        {
+          $group: {
+            _id: "outcomes",
+            amount: { $sum: "$psFee" },
+          },
+        },
+      ]);
+      incomes = incomes[0]?.amount ?? 0;
+      outcomes = outcomes[0]?.amount ?? 0;
+      return incomes - outcomes;
     },
   },
 };

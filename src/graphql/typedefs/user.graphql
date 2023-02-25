@@ -22,6 +22,7 @@ type User implements TimeStamps {
   activeTrip: Trip
   automobile: Automobile
   defaultPaymentMethod: UserDefaultPaymentMethod
+  balance: Float!
 
   # Interface required
   createdAt: Date!
