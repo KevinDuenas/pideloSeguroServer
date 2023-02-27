@@ -83,10 +83,22 @@ onerp.get("/activeTrips", async (req, res) => {
   try {
     const trips = await Trip.find({
       "onerpInfo.storeId": storeId,
-      status: { $in: ["DRIVER_PENDING", "ACTIVE"] },
+      status: {
+        $in: ["DRIVER_PENDING", "ACTIVE", "FOOD_PENDING", "AT_DELIVER"],
+      },
     }).sort({ createdAt: "desc" });
 
-    return res.status(200).send(trips);
+    const loadedTripsPromises = await trips.map(async (trip) => {
+      const driver = await User.findOne({ _id: trip.driver });
+      const loadedTrip = await {
+        ...trip._doc,
+        driver: driver ?? trip.driver,
+      };
+      return loadedTrip;
+    });
+    Promise.all(loadedTripsPromises).then((results) => {
+      return res.status(200).send(results);
+    });
   } catch (err) {
     return res.status(500).json(err);
   }
