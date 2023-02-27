@@ -89,10 +89,11 @@ onerp.get("/activeTrips", async (req, res) => {
     }).sort({ createdAt: "desc" });
 
     const loadedTripsPromises = await trips.map(async (trip) => {
-      const driver = await User.findOne({ _id: trip.driver });
+      let driver = await User.findOne({ _id: trip.driver });
+
       const loadedTrip = await {
         ...trip._doc,
-        driver: driver ?? trip.driver,
+        driver: driver ? { ...driver._doc, id: driver._id } : trip.driver,
       };
       return loadedTrip;
     });
