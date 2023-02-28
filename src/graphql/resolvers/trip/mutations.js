@@ -10,7 +10,9 @@ const tripMutations = {
     const driver = await User.findOne({ _id: id });
     const activeDriverTrip = await Trip.findOne({
       driver: id,
-      status: "ACTIVE",
+      status: {
+        $in: ["ACTIVE", "DRIVER_PENDING", "FOOD_PENDING", "AT_DELIVER"],
+      },
       tripStartedAt: { $exists: true },
       tripEndedAt: { $exists: false },
     });

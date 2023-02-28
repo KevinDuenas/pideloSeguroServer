@@ -51,7 +51,9 @@ const userFields = {
       const openTrip = await Trip.findOne({
         driver: userId,
         tripEndedAt: { $exists: false },
-        status: "ACTIVE",
+        status: {
+          $in: ["ACTIVE", "DRIVER_PENDING", "FOOD_PENDING", "AT_DELIVER"],
+        },
       });
       if (!openTrip) {
         return null;
