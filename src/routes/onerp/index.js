@@ -5,6 +5,7 @@ import fb from "firebase-admin";
 import { firestoreDB } from "@connections/firebase";
 import tripsHelper from "@graphql/resolvers/utils/trips";
 import { folio } from "@graphql/resolvers/utils/folio";
+import { pideloSeguroApiKey } from "@config/environment";
 
 const onerp = Router();
 const GeoFirestore = geofirestore.initializeApp(firestoreDB);
@@ -13,8 +14,14 @@ const activeDriversDB = firestoreDB.collection("drivers");
 const activeTripsDB = firestoreDB.collection("activeTrips");
 
 onerp.post("/requestTrip", async (req, res) => {
-  const { destinations, onerpInfo, tripType } = req.body;
+  let accessToken;
+  if (!req.headers.authorization) return res.status(401).send();
+  if (req.headers.authorization)
+    [, accessToken] = req.headers.authorization.split("psApiKey ");
+  if (accessToken !== pideloSeguroApiKey)
+    return res.status(401).send({ message: "Api key is not valid." });
 
+  const { destinations, onerpInfo, tripType } = req.body;
   try {
     let storeGeo = destinations[0].geolocation.coordinates;
     let destinationGeo = destinations[1].geolocation.coordinates;
@@ -80,6 +87,12 @@ onerp.post("/requestTrip", async (req, res) => {
 
 onerp.get("/activeTrips", async (req, res) => {
   const { storeId } = req.query;
+  let accessToken;
+  if (!req.headers.authorization) return res.status(401).send();
+  if (req.headers.authorization)
+    [, accessToken] = req.headers.authorization.split("psApiKey ");
+  if (accessToken !== pideloSeguroApiKey)
+    return res.status(401).send({ message: "Api key is not valid." });
   try {
     const trips = await Trip.find({
       "onerpInfo.storeId": storeId,
@@ -107,6 +120,12 @@ onerp.get("/activeTrips", async (req, res) => {
 
 onerp.put("/updateTrip", async (req, res) => {
   const { tripId, status } = req.body;
+  let accessToken;
+  if (!req.headers.authorization) return res.status(401).send();
+  if (req.headers.authorization)
+    [, accessToken] = req.headers.authorization.split("psApiKey ");
+  if (accessToken !== pideloSeguroApiKey)
+    return res.status(401).send({ message: "Api key is not valid." });
   try {
     if (status !== "AT_DELIVER") return res.status(401).send();
     const trip = await Trip.findOneAndUpdate(
@@ -131,6 +150,12 @@ onerp.put("/updateTrip", async (req, res) => {
 
 onerp.get("/trip", async (req, res) => {
   const { tripId } = req.query;
+  let accessToken;
+  if (!req.headers.authorization) return res.status(401).send();
+  if (req.headers.authorization)
+    [, accessToken] = req.headers.authorization.split("psApiKey ");
+  if (accessToken !== pideloSeguroApiKey)
+    return res.status(401).send({ message: "Api key is not valid." });
   try {
     const trip = await Trip.findOne({
       _id: tripId,
@@ -148,7 +173,12 @@ onerp.get("/trip", async (req, res) => {
 
 onerp.put("/cancelTrip", async (req, res) => {
   const { tripId } = req.body;
-
+  let accessToken;
+  if (!req.headers.authorization) return res.status(401).send();
+  if (req.headers.authorization)
+    [, accessToken] = req.headers.authorization.split("psApiKey ");
+  if (accessToken !== pideloSeguroApiKey)
+    return res.status(401).send({ message: "Api key is not valid." });
   try {
     const canceledTrip = await Trip.findOneAndUpdate(
       {

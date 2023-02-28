@@ -2,8 +2,16 @@ import { User, Config, Trip } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import { firestoreDB } from "@connections/firebase";
 import axios from "axios";
+import { ONERPApiKey } from "@config/environment";
+
 const activeDriversDB = firestoreDB.collection("drivers");
 const activeTripsDB = firestoreDB.collection("activeTrips");
+
+const onerpHeaders = {
+  headers: {
+    Authorization: "onerpApiKey " + ONERPApiKey,
+  },
+};
 
 const tripMutations = {
   acceptTrip: async (_, { tripId }, { user: { id }, loaders }) => {
@@ -57,19 +65,23 @@ const tripMutations = {
     });
 
     // Use ONERP hook
-    // let endpointUrl = "";
-    // if (env.development) {
-    //   validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
-    // } else if (env.staging) {
-    //   validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
-    // } else if (env.production) {
-    //   validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
-    // }
+    let endpointUrl = "";
+    if (env.development) {
+      validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
+    } else if (env.staging) {
+      validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    } else if (env.production) {
+      validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    }
 
-    // await axios.put(endpointUrl, {
-    //   ticketId: onerpInfo.ticketId,
-    //   tripId: newTrip._id.toString(),
-    // });
+    await axios.put(
+      endpointUrl,
+      {
+        ticketId: onerpInfo.ticketId,
+        tripId: newTrip._id.toString(),
+      },
+      onerpHeaders
+    );
 
     return resolveTrip.one(trip, loaders);
   },
