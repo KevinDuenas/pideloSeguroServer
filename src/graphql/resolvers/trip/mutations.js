@@ -2,6 +2,7 @@ import { User, Config, Trip } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import { firestoreDB } from "@connections/firebase";
 import axios from "axios";
+import { env } from "@config/environment";
 import { ONERPApiKey } from "@config/environment";
 
 const activeDriversDB = firestoreDB.collection("drivers");
@@ -69,16 +70,16 @@ const tripMutations = {
     if (env.development) {
       validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
     } else if (env.staging) {
-      validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+      endpointUrl = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
     } else if (env.production) {
-      validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+      endpointUrl = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
     }
-
+    const ticketId = trip.onerpInfo.ticketId.toString();
+    const tripIdString = tripId.toString();
     await onerpClient.put(endpointUrl, {
-      ticketId: onerpInfo.ticketId,
-      tripId: newTrip._id.toString(),
+      ticketId: ticketId,
+      tripId: tripIdString,
     });
-
     return resolveTrip.one(trip, loaders);
   },
 
