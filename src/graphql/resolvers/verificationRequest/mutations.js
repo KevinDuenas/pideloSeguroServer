@@ -33,7 +33,7 @@ const verificationRequestMutations = {
       } else if (env.production) {
         validateLink = `https://pideloseguro.net/validateDriver?token=${validateToken}`;
       }
-      await send.driverVerificationRequest("kevinduenas@hotmail.es", {
+      await send.driverVerificationRequest("vidalcavazos@gmail.com", {
         fullname: `${user.firstName} ${user.firstLastName} ${user.secondLastName}`,
         phoneNumber: user?.phoneNumber ?? "",
         email: user?.email ?? "",
