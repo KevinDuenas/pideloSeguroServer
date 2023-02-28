@@ -7,11 +7,11 @@ import { ONERPApiKey } from "@config/environment";
 const activeDriversDB = firestoreDB.collection("drivers");
 const activeTripsDB = firestoreDB.collection("activeTrips");
 
-const onerpHeaders = {
+let onerpClient = axios.create({
   headers: {
-    Authorization: "onerpApiKey " + ONERPApiKey,
+    Authorization: `onerpApiKey ${ONERPApiKey}`,
   },
-};
+});
 
 const tripMutations = {
   acceptTrip: async (_, { tripId }, { user: { id }, loaders }) => {
@@ -74,14 +74,10 @@ const tripMutations = {
       validateLink = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
     }
 
-    await axios.put(
-      endpointUrl,
-      {
-        ticketId: onerpInfo.ticketId,
-        tripId: newTrip._id.toString(),
-      },
-      onerpHeaders
-    );
+    await onerpClient.put(endpointUrl, {
+      ticketId: onerpInfo.ticketId,
+      tripId: newTrip._id.toString(),
+    });
 
     return resolveTrip.one(trip, loaders);
   },
