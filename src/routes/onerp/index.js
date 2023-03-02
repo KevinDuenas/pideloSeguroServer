@@ -150,12 +150,12 @@ onerp.put("/updateTrip", async (req, res) => {
 
 onerp.get("/trip", async (req, res) => {
   const { tripId } = req.query;
-  let accessToken;
-  if (!req.headers.authorization) return res.status(401).send();
-  if (req.headers.authorization)
-    [, accessToken] = req.headers.authorization.split("psApiKey ");
-  if (accessToken !== pideloSeguroApiKey)
-    return res.status(401).send({ message: "Api key is not valid." });
+  // let accessToken;
+  // if (!req.headers.authorization) return res.status(401).send();
+  // if (req.headers.authorization)
+  //   [, accessToken] = req.headers.authorization.split("psApiKey ");
+  // if (accessToken !== pideloSeguroApiKey)
+  //   return res.status(401).send({ message: "Api key is not valid." });
   try {
     const trip = await Trip.findOne({
       _id: tripId,
