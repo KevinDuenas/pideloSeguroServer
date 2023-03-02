@@ -21,4 +21,9 @@ const scripts = new Signale({
   config,
 });
 
-export { db, api, scripts };
+const cronjobs = new Signale({
+  scope: "cronjobs",
+  config,
+});
+
+export { db, api, scripts, cronjobs };

@@ -1,6 +1,7 @@
 import { db, api } from "@config/loggers";
 import { port } from "@config/environment";
 import { connectDB } from "@db/scripts";
+import { startTripsCronjobs } from "@cronJobs/trips";
 import app from "./app";
 
 const start = async () => {
@@ -8,7 +9,7 @@ const start = async () => {
   try {
     await connectDB();
     db.success("🔥  Connected to DB");
-
+    startTripsCronjobs();
     app.listen(port);
     api.success(`🚀  GraphQL server running at port: ${port}`);
   } catch (e) {

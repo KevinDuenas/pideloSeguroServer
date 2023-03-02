@@ -28,7 +28,7 @@ onerp.post("/requestTrip", async (req, res) => {
     let destinationGeo = destinations[1].geolocation.coordinates;
     const query = geocollection.near({
       center: new fb.firestore.GeoPoint(storeGeo[0], storeGeo[1]),
-      radius: 5000,
+      radius: 5,
     });
 
     const { cost, meters } = await tripsHelper.calculateCost(
