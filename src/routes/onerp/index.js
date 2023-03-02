@@ -6,6 +6,7 @@ import { firestoreDB } from "@connections/firebase";
 import tripsHelper from "@graphql/resolvers/utils/trips";
 import { folio } from "@graphql/resolvers/utils/folio";
 import { pideloSeguroApiKey } from "@config/environment";
+import { notifications } from "./utils";
 
 const onerp = Router();
 const GeoFirestore = geofirestore.initializeApp(firestoreDB);
@@ -75,7 +76,15 @@ onerp.post("/requestTrip", async (req, res) => {
     query.get().then(async (value) => {
       for (let driver of value.docs) {
         let driverInfo = driver.data();
+        const driverData = await User.findOne({ _id: driverInfo.driverId });
         await activeDriversDB.doc(driverInfo.driverId).set(firebaseTrip);
+        if (driverData.pushNotificationToken) {
+          notifications.send(
+            driverData.pushNotificationToken,
+            "Nuevo viaje disponible 🍽️",
+            "Ver detalle"
+          );
+        }
       }
     });
     return res.status(201).send(newTrip);

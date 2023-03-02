@@ -65,6 +65,8 @@ const ONERPApiKey = process.env.ONERP_API_KEY;
 
 const pideloSeguroApiKey = process.env.PS_API_KEY;
 
+const expoAccessToken = process.env.EXPO_ACCESS_TOKEN;
+
 export {
   port,
   secrets,
@@ -79,4 +81,5 @@ export {
   stripeConfig,
   ONERPApiKey,
   pideloSeguroApiKey,
+  expoAccessToken,
 };
