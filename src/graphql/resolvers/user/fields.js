@@ -1,5 +1,15 @@
-import { User, VerificationRequest, Config, Trip } from "@db/models";
+import {
+  User,
+  VerificationRequest,
+  Config,
+  Trip,
+  Automobile,
+  Payment,
+} from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
+import resolveAutomobile from "@graphql/resolvers/automobile";
+import stripe from "@connections/stripe";
+import { Types } from "mongoose";
 
 const userFields = {
   User: {
@@ -41,12 +51,79 @@ const userFields = {
       const openTrip = await Trip.findOne({
         driver: userId,
         tripEndedAt: { $exists: false },
-        status: "ACTIVE",
+        status: {
+          $in: ["ACTIVE", "DRIVER_PENDING", "FOOD_PENDING", "AT_DELIVER"],
+        },
       });
       if (!openTrip) {
         return null;
       }
       return resolveTrip.one(openTrip, loaders);
+    },
+    automobile: async (_, __, { loaders, user: { id: userId } }) => {
+      const automobile = await Automobile.findOne({
+        driver: userId,
+        deleted: false,
+      });
+
+      if (!automobile) return null;
+      return resolveAutomobile.one(automobile, loaders);
+    },
+    defaultPaymentMethod: async (
+      { stripeCustomerId },
+      __,
+      { loaders, user: { id: userId } }
+    ) => {
+      if (!stripeCustomerId) return null;
+
+      const paymentMethod = await stripe.paymentMethods.list({
+        customer: stripeCustomerId,
+        type: "card",
+      });
+      const paymentId = paymentMethod?.data[0]?.id;
+      const card = paymentMethod?.data[0]?.card;
+      if (!card) return null;
+      return {
+        expYear: card.exp_year,
+        expMonth: card.exp_month,
+        lastFourDigits: card.last4,
+        brand: card.brand,
+        stripeId: paymentId,
+      };
+    },
+    balance: async (_, __, { loaders, user: { id: userId } }) => {
+      let incomes = await Payment.aggregate([
+        {
+          $match: {
+            deleted: false,
+            user: Types.ObjectId(userId),
+            status: "SUCCEEDED",
+          },
+        },
+        {
+          $group: {
+            _id: "incomes",
+            amount: { $sum: "$amount" },
+          },
+        },
+      ]);
+      let outcomes = await Trip.aggregate([
+        {
+          $match: {
+            deleted: false,
+            driver: Types.ObjectId(userId),
+          },
+        },
+        {
+          $group: {
+            _id: "outcomes",
+            amount: { $sum: "$psFee" },
+          },
+        },
+      ]);
+      incomes = incomes[0]?.amount ?? 0;
+      outcomes = outcomes[0]?.amount ?? 0;
+      return incomes - outcomes;
     },
   },
 };

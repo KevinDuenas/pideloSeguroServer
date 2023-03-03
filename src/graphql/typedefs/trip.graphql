@@ -13,6 +13,7 @@ type Trip {
   onerpInfo: OnerpInfo
   meters: Float
   cost: Float
+  psFee: Float
 
   # Dynamics
   routeUrl: String
@@ -40,6 +41,8 @@ type OnerpInfo {
   userId: ID!
   ticketId: ID!
   ticketTotal: Float!
+  clientName: String!
+  clientPhone: String!
 }
 
 # Inputs
@@ -55,7 +58,9 @@ input OnerpInfoInput {
   storeId: ID!
   userId: ID!
   ticketId: ID!
-  ticketTotal: Float
+  ticketTotal: Float!
+  clientName: String!
+  clientPhone: String!
 }
 
 input RequestTripInput {
@@ -72,6 +77,8 @@ enum TripTypesEnum {
 
 enum TripStatusEnum {
   DRIVER_PENDING
+  FOOD_PENDING
+  AT_DELIVER
   ACTIVE
   CLOSED
   CANCELED

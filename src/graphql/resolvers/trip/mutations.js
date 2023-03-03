@@ -1,15 +1,27 @@
 import { User, Config, Trip } from "@db/models";
 import resolveTrip from "@graphql/resolvers/trip";
 import { firestoreDB } from "@connections/firebase";
+import axios from "axios";
+import { env } from "@config/environment";
+import { ONERPApiKey } from "@config/environment";
+
 const activeDriversDB = firestoreDB.collection("drivers");
 const activeTripsDB = firestoreDB.collection("activeTrips");
+
+let onerpClient = axios.create({
+  headers: {
+    Authorization: `onerpApiKey ${ONERPApiKey}`,
+  },
+});
 
 const tripMutations = {
   acceptTrip: async (_, { tripId }, { user: { id }, loaders }) => {
     const driver = await User.findOne({ _id: id });
     const activeDriverTrip = await Trip.findOne({
       driver: id,
-      status: "ACTIVE",
+      status: {
+        $in: ["ACTIVE", "DRIVER_PENDING", "FOOD_PENDING", "AT_DELIVER"],
+      },
       tripStartedAt: { $exists: true },
       tripEndedAt: { $exists: false },
     });
@@ -31,22 +43,42 @@ const tripMutations = {
       {
         driver: id,
         tripStartedAt: Date.now(),
-        status: "ACTIVE",
+        status: "FOOD_PENDING",
       },
       { new: true }
     );
     if (!trip) throw new Error("Trip is not available any more.");
+
+    // Remove all trips request from drivers on firebase
     let jobskill_query = await activeDriversDB.where("tripId", "==", tripId);
     jobskill_query.get().then(async (querySnapshot) => {
       await querySnapshot.forEach(async (doc) => {
         await doc.ref.delete();
       });
     });
+
+    // Update active trip status on firebase
     let update_query = await activeTripsDB.where("tripId", "==", tripId);
     update_query.get().then(async (querySnapshot) => {
       await querySnapshot.forEach(async (doc) => {
-        await doc.ref.update({ status: "ACTIVE" });
+        await doc.ref.update({ status: "FOOD_PENDING" });
       });
+    });
+
+    // Use ONERP hook
+    let endpointUrl = "";
+    if (env.development) {
+      validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
+    } else if (env.staging) {
+      endpointUrl = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    } else if (env.production) {
+      endpointUrl = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
+    }
+    const ticketId = trip.onerpInfo.ticketId.toString();
+    const tripIdString = tripId.toString();
+    await onerpClient.put(endpointUrl, {
+      ticketId: ticketId,
+      tripId: tripIdString,
     });
     return resolveTrip.one(trip, loaders);
   },
@@ -63,7 +95,6 @@ const tripMutations = {
         _id: tripId,
         driver: id,
         tripStartedAt: { $exists: true },
-        status: "ACTIVE",
         deleted: false,
       },
       {

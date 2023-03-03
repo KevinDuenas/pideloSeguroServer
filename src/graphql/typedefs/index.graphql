@@ -22,6 +22,9 @@ type Query {
   # Reports
   investorsReport: InvestorsReport!
 
+  # Payments
+  driverPayments: [Payment]!
+
   # Others
   serverDate: Date!
 }
@@ -37,11 +40,19 @@ type Mutation {
   denyTrip(tripId: ID!): Boolean!
   endTrip(tripId: ID!): Boolean!
 
+  # Automobile
+  addAutomobileByToken(automobile: AutomobileCreateInput!): Automobile!
+
   # Verification Request
   createDriverVerificationRequest: Boolean
 
   # Config - Documents
   createDocument(document: DocumentCreateInput!): Boolean!
+
+  # Payments
+  createStripePayment(amountInCents: Int!): Payment
+  addStripePaymentMethod: String!
+  removePaymentMethod: Boolean!
 
   # Others
   serverDate: Date!

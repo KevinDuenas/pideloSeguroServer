@@ -26,41 +26,6 @@ auth.get("/access", async (req, res) => {
   }
 });
 
-auth.post("/sendCode", async (req, res) => {
-  const { phoneNumber, isLogin } = req.body;
-
-  try {
-    const user = await User.findOne({
-      phoneNumber: phoneNumber,
-    });
-    if (isLogin && !user) {
-      return res
-        .status(404)
-        .json("Phone number is already linked to any user.");
-    }
-
-    if (!isLogin && user) {
-      return res
-        .status(409)
-        .json("Phone number is already linked to any user.");
-    }
-    twilioClient.verify.v2
-      .services(twilioConfig.verifyService)
-      .verifications.create({ to: phoneNumber, channel: "sms" })
-      .then((verification) => {
-        const { status } = verification;
-        return res.status(200).json({
-          hasAccount: user ? true : false,
-        });
-      })
-      .catch((err) => {
-        return res.status(500).json(err);
-      });
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
-
 auth.post("/registerDriver", async (req, res) => {
   const { email, firstName, firstLastName, secondLastName, password } =
     req.body;
@@ -169,6 +134,33 @@ auth.post("/logout", async (req, res) => {
     await tokens.refresh.remove(res, refreshToken, sessionId);
     return res.status(200).send("OK");
   } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+auth.post("/recover", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const passwordRecoveryToken = tokens.passwordRecovery.get(user);
+      user.passwordRecoveryToken = passwordRecoveryToken;
+      let recoveryLink = "";
+      if (env.development) {
+        // Note that this is the usual port where React App is running
+        // Actually. the backend does not have a way to know which port is used
+        recoveryLink = `http://localhost:3000/reset?token=${passwordRecoveryToken}`;
+      } else if (env.staging) {
+        recoveryLink = `https://pideloseguro.xyz/reset?token=${passwordRecoveryToken}`;
+      } else if (env.production) {
+        recoveryLink = `https://pideloseguro.net/reset?token=${passwordRecoveryToken}`;
+      }
+      await send.recoverPassword(user.email, { link: recoveryLink });
+      await user.save();
+    }
+    return res.status(200).send("OK");
+  } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 });

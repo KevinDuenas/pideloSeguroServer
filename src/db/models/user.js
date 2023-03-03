@@ -14,7 +14,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     pushNotificationToken: { type: String },
-    balance: { type: Number, required: true, default: 0.0 },
+    shares: { type: Number },
     overallRole: {
       type: String,
       required: true,
@@ -47,6 +47,9 @@ const UserSchema = new Schema(
         rejectedReason: { type: String },
       },
     ],
+    stripeCustomerId: { type: String },
+    passwordRecoveryToken: { type: String },
+    validateToken: { type: String },
   },
   {
     timestamps: true,

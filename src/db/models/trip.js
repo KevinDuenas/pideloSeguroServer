@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import mongooseDelete from "mongoose-delete";
+import { tripStatus } from "@config/constants/trip";
 
 const TripSchema = new Schema(
   {
@@ -10,7 +11,12 @@ const TripSchema = new Schema(
       index: true,
     },
     programmedDate: { type: Date },
-    status: { type: String, required: false, default: "DRIVER_PENDING" },
+    status: {
+      type: String,
+      required: true,
+      default: "DRIVER_PENDING",
+      enum: Object.keys(tripStatus),
+    },
     tripStartedAt: { type: Date, required: false },
     tripEndedAt: { type: Date, required: false },
     destinations: [
@@ -32,6 +38,7 @@ const TripSchema = new Schema(
       },
     ],
     tripType: { type: String },
+    psFee: { type: Number, required: true, default: 0 },
     onerpInfo: {
       type: {
         storeId: {
@@ -50,6 +57,8 @@ const TripSchema = new Schema(
           index: true,
         },
         ticketTotal: { type: Number, required: true },
+        clientName: { type: String },
+        clientPhone: { type: String },
       },
       required: false,
     },

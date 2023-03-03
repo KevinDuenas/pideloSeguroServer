@@ -1,16 +1,19 @@
 import { Schema, model } from "mongoose";
+import mongooseDelete from "mongoose-delete";
 
 const AutomobileSchema = new Schema(
   {
-    owner: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    brand: { type: String },
-    model: { type: String },
-    plates: { type: String },
-    color: { type: String },
-    verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
-    type: { type: String, default: "DOCUMENTS_PENDING" },
+    driver: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    brand: { type: String, required: true },
+    model: { type: String, required: true },
+    plates: { type: String, required: true },
+    color: { type: String, required: true },
+    verificationStatus: { type: String, default: "MISSING" },
+    type: { type: String, required: true, default: "CAR" },
   },
   { timestamps: true }
 );
+
+AutomobileSchema.plugin(mongooseDelete);
 
 export default model("Automobile", AutomobileSchema);

@@ -12,7 +12,15 @@ const getCommonConfig = (to) => ({
 const send = {
   driverVerificationRequest: (
     to,
-    { fullname, phoneNumber, email, dob, documentOne, documentTwo }
+    {
+      fullname,
+      phoneNumber,
+      email,
+      dob,
+      documentOne,
+      documentTwo,
+      validateLink,
+    }
   ) =>
     ses
       .sendTemplatedEmail({
@@ -25,7 +33,16 @@ const send = {
           dob,
           documentOne,
           documentTwo,
+          validateLink,
         }),
+      })
+      .promise(),
+  recoverPassword: (to, { link }) =>
+    ses
+      .sendTemplatedEmail({
+        ...getCommonConfig(to),
+        Template: "recover-password-ps",
+        TemplateData: JSON.stringify({ link }),
       })
       .promise(),
 };

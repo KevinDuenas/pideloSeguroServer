@@ -57,6 +57,16 @@ const googleMapsConfig = {
   apiKey: process.env.GOOGLE_MAPS_API_KEY,
 };
 
+const stripeConfig = {
+  apiKey: process.env.STRIPE_API_KEY,
+  webhookKey: process.env.STRIPE_WEBHOOKS_KEY,
+};
+const ONERPApiKey = process.env.ONERP_API_KEY;
+
+const pideloSeguroApiKey = process.env.PS_API_KEY;
+
+const expoAccessToken = process.env.EXPO_ACCESS_TOKEN;
+
 export {
   port,
   secrets,
@@ -68,4 +78,8 @@ export {
   googleMapsConfig,
   firebaseAdminConfig,
   firebaseDatabaseURL,
+  stripeConfig,
+  ONERPApiKey,
+  pideloSeguroApiKey,
+  expoAccessToken,
 };
