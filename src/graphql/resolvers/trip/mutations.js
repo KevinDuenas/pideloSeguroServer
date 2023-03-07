@@ -32,6 +32,8 @@ const tripMutations = {
       await activeDriversDB.doc(id).delete();
       throw new Error("Driver has an active drive.");
     }
+    const driverBalance = driver.balance ?? 0;
+    if (driverBalance <= 0) throw new Error("Driver has not balance.");
 
     const trip = await Trip.findOneAndUpdate(
       {
@@ -39,6 +41,7 @@ const tripMutations = {
         driver: { $exists: false },
         tripStartedAt: { $exists: false },
         status: "DRIVER_PENDING",
+        psFee: { $lte: driverBalance },
       },
       {
         driver: id,
@@ -47,7 +50,10 @@ const tripMutations = {
       },
       { new: true }
     );
-    if (!trip) throw new Error("Trip is not available any more.");
+    if (!trip)
+      throw new Error(
+        "Trip is not available any more or driver has not the fee balance."
+      );
 
     // Remove all trips request from drivers on firebase
     let jobskill_query = await activeDriversDB.where("tripId", "==", tripId);
@@ -68,7 +74,7 @@ const tripMutations = {
     // Use ONERP hook
     let endpointUrl = "";
     if (env.development) {
-      validateLink = `http://localhost:4040/pideloSeguro/updateTicket`;
+      endpointUrl = `http://localhost:4040/pideloSeguro/updateTicket`;
     } else if (env.staging) {
       endpointUrl = `https://api.onerp.com.mx/pideloSeguro/updateTicket`;
     } else if (env.production) {

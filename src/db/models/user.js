@@ -15,6 +15,7 @@ const UserSchema = new Schema(
     verificationStatus: { type: String, default: "DOCUMENTS_PENDING" },
     pushNotificationToken: { type: String },
     shares: { type: Number },
+    balance: { type: Number },
     overallRole: {
       type: String,
       required: true,

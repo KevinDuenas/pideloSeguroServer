@@ -123,7 +123,9 @@ const userFields = {
       ]);
       incomes = incomes[0]?.amount ?? 0;
       outcomes = outcomes[0]?.amount ?? 0;
-      return incomes - outcomes;
+      const balance = incomes - outcomes;
+      await User.findOneAndUpdate({ _id: userId }, { balance });
+      return balance;
     },
   },
 };
