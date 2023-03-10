@@ -16,6 +16,7 @@ import {
   automobileQueries,
   automobileFields,
 } from "./automobile";
+import { serviceMutations, serviceQueries, serviceFields } from "./service";
 import { AWSQueries } from "./aws";
 import { reportsQueries } from "./reports";
 import { paymentMutations, paymentQueries } from "./payment";
@@ -30,6 +31,7 @@ const resolvers = {
     ...reportsQueries,
     ...automobileQueries,
     ...paymentQueries,
+    ...serviceQueries,
     serverDate: () => new Date(),
   },
   Mutation: {
@@ -39,6 +41,7 @@ const resolvers = {
     ...verificationRequestMutations,
     ...automobileMutations,
     ...paymentMutations,
+    ...serviceMutations,
   },
   Subscription: {
     ...tripSubscriptions,
@@ -47,6 +50,7 @@ const resolvers = {
   ...tripFields,
   ...verificationRequestFields,
   ...automobileFields,
+  ...serviceFields,
 };
 
 export default resolvers;
