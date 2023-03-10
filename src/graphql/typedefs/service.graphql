@@ -1,5 +1,6 @@
 # Types
-type Service {
+type Service implements TimeStamps {
+  id: ID!
   name: String!
   description: String!
   country: String!
@@ -11,6 +12,15 @@ type Service {
   dayRate: Rate!
   nightRate: Rate!
   serviceType: ServiceTypesEnum
+
+  # Interface required
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Services {
+  info: Info
+  results: [Service]!
 }
 
 type Rate {

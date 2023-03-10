@@ -50,4 +50,4 @@ const ServiceSchema = new Schema(
 
 ServiceSchema.plugin(mongooseDelete);
 
-export default model("Servcie", ServiceSchema);
+export default model("Service", ServiceSchema);

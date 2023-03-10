@@ -25,6 +25,9 @@ type Query {
   # Payments
   driverPayments: [Payment]!
 
+  # Service
+  services(state: StatesEnum!, params: QueryParams): Services! @paginate
+
   # Others
   serverDate: Date!
 }
