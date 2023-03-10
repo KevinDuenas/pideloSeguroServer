@@ -1,0 +1,78 @@
+# Types
+type Service {
+  name: String!
+  description: String!
+  country: String!
+  state: StatesEnum!
+  maxPassengers: Int
+  maxVolumetric: Float
+  instructions: String
+  active: Boolean!
+  dayRate: Rate!
+  nightRate: Rate!
+  serviceType: ServiceTypesEnum
+}
+
+type Rate {
+  platformFee: Float!
+  startHour: String!
+  endHour: String!
+  pricePerKilometer: Float!
+  pricePerMinute: Float!
+  initialPrice: Float!
+}
+
+# Input
+
+input PassengersServiceCreateInput {
+  name: String!
+  description: String!
+  state: StatesEnum!
+  maxPassengers: Int!
+  instructions: String!
+  active: Boolean!
+  dayRate: RateInput!
+  nightRate: RateInput!
+}
+
+input DeliveryServiceCreateInput {
+  name: String!
+  description: String!
+  state: StatesEnum!
+  maxVolumetric: Float!
+  instructions: String!
+  active: Boolean!
+  dayRate: RateInput!
+  nightRate: RateInput!
+}
+
+input FoodDeliveryServiceCreateInput {
+  name: String!
+  description: String!
+  state: StatesEnum!
+  instructions: String!
+  active: Boolean!
+  dayRate: RateInput!
+  nightRate: RateInput!
+}
+
+input RateInput {
+  platformFee: Float!
+  startHour: String!
+  endHour: String!
+  pricePerKilometer: Float!
+  pricePerMinute: Float!
+  initialPrice: Float!
+}
+
+# Enums
+
+enum StatesEnum {
+  NL
+}
+
+enum ServiceTypesEnum {
+  FOOD_DELIVERY
+  DELIVERY
+  PASSENGERS
+}

@@ -54,6 +54,11 @@ type Mutation {
   addStripePaymentMethod: String!
   removePaymentMethod: Boolean!
 
+  # Services
+  createPassengersService(service: PassengersServiceCreateInput!): Service!
+  createDeliveryService(service: DeliveryServiceCreateInput!): Service!
+  createFoodDeliveryService(service: FoodDeliveryServiceCreateInput!): Service!
+
   # Others
   serverDate: Date!
 }

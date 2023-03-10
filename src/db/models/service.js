@@ -21,8 +21,8 @@ const ServiceSchema = new Schema(
       required: true,
       type: {
         platformFee: { type: Number, required: true },
-        startHour: { type: Number, required: true },
-        endHour: { type: Number, required: true },
+        startHour: { type: String, required: true },
+        endHour: { type: String, required: true },
         pricePerKilometer: { type: Number, required: true },
         pricePerMinute: { type: Number, required: true },
         initialPrice: { type: Number, required: true },
@@ -32,8 +32,8 @@ const ServiceSchema = new Schema(
       required: true,
       type: {
         platformFee: { type: Number, required: true },
-        startHour: { type: Number, required: true },
-        endHour: { type: Number, required: true },
+        startHour: { type: String, required: true },
+        endHour: { type: String, required: true },
         pricePerKilometer: { type: Number, required: true },
         pricePerMinute: { type: Number, required: true },
         initialPrice: { type: Number, required: true },
