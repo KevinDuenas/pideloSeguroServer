@@ -24,6 +24,7 @@ type Query {
 
   # Payments
   driverPayments: [Payment]!
+  payments(params: QueryParams!): Payments!
 
   # Service
   services(state: StatesEnum!, params: QueryParams): Services! @paginate
@@ -56,6 +57,7 @@ type Mutation {
   createStripePayment(amountInCents: Int!): Payment
   addStripePaymentMethod: String!
   removePaymentMethod: Boolean!
+  createDepositPayment(deposit: DepositPaymentCreateInput!): Payment
 
   # Services
   createPassengersService(service: PassengersServiceCreateInput!): Service!

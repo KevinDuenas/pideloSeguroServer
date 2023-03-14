@@ -12,12 +12,14 @@ type Payment implements TimeStamps {
   updatedAt: Date!
 }
 
-input PaymentCreateInput {
+type Payments {
+  info: Info
+  results: [Payment]!
+}
+
+input DepositPaymentCreateInput {
   amount: Float!
   user: ID!
-  status: PaymentStatus!
-  type: PaymentType!
-  method: PaymentMethod!
 }
 
 enum PaymentStatus {

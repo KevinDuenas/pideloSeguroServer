@@ -90,6 +90,23 @@ const paymentMutations = {
     if (deletedPayment) return true;
     return false;
   },
+  createDepositPayment: async (_, { deposit }, { loaders, user: { id } }) => {
+    const driver = await User.findOne({
+      _id: deposit.user,
+      overallRole: "DRIVER",
+    });
+
+    if (!driver) throw new Error("User needs to be a driver.");
+    const newPayment = new Payment({
+      ...deposit,
+      status: "SUCCEEDED",
+      type: "DRIVER_RECHARGE",
+      method: "DEPOSIT",
+    });
+
+    const savedPayment = await newPayment.save();
+    return resolvePayment.one(savedPayment, loaders);
+  },
 };
 
 export default paymentMutations;
