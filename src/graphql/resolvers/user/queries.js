@@ -26,6 +26,10 @@ const userQueries = {
     }
     return copy;
   },
+  drivers: async (_, __, { loaders, user: { id } }) => {
+    const drivers = await User.find({ overallRole: "DRIVER" });
+    return resolveUser.many(drivers, loaders);
+  },
 };
 
 export default userQueries;

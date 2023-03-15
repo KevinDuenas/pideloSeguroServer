@@ -8,6 +8,7 @@ type Query {
   # User
   userByToken: User!
   userDocumentsStatus: [UserDocumentStatus]
+  drivers: [User]!
 
   # Confg - Documents
   driverDocuments: [DocumentConfig]
