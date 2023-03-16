@@ -10,27 +10,53 @@ const reportsQueries = {
       _id: id,
       overallRole: { $in: ["INVESTOR", "STOCKHOLDER"] },
     });
+    if (!user) throw new Error("Error fetching Investor information.");
 
-    if (!user) throw new Error("Error fetching Investor information. ");
-
-    // const report = await Trip.aggregate([
-    //   {
-    //     $match: {
-    //       deleted: false,
-    //     },
-    //   },
-    //   { $unwind: "$onerpInfo" },
-    //   {
-    //     $group: {
-    //       startedTrips: { $sum: 1 },
-    //       quantity: { $sum: "$products.quantity" },
-    //       tripsIncome: {
-    //         $sum: { $multiply: ["$cost", 0.15] },
-    //       },
-    //     },
-    //   },
-    //   { $sort: { money: -1 } },
-    // ]);
+    const driversCount = await User.countDocuments({ overallRole: "DRIVER" });
+    const report = await Trip.aggregate([
+      {
+        $match: {
+          deleted: false,
+        },
+      },
+      {
+        $group: {
+          _id: 0,
+          startedTrips: { $sum: 1 },
+          quantity: { $sum: "$products.quantity" },
+          tripsIncome: {
+            $sum: {
+              $cond: [
+                { $ne: ["$status", "CANCELED"] },
+                { $sum: ["$psFee"] },
+                0,
+              ],
+            },
+          },
+          startedTrips: {
+            $sum: {
+              $cond: [{ $ne: ["$status", "CANCELED"] }, 1, 0],
+            },
+          },
+          successTrips: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "CLOSED"] }, 1, 0],
+            },
+          },
+          notStartedTrips: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "CANCELED"] }, 1, 0],
+            },
+          },
+          cancelledTrips: {
+            $sum: {
+              $cond: [{ $eq: ["$status", "CANCELED"] }, 1, 0],
+            },
+          },
+        },
+      },
+      { $sort: { money: -1 } },
+    ]);
 
     const costs = [
       {
@@ -54,18 +80,16 @@ const reportsQueries = {
         description: "Margen por imprevistos.",
       },
     ];
+    const costsTotal = 21284;
+    const utilities = report[0].tripsIncome - costsTotal;
 
     return {
-      driversCount: 0,
-      startedTrips: 0,
-      tripsIncome: 0.0,
-      successTrips: 0,
-      notStartedTrips: 0,
-      cancelledTrips: 0,
+      driversCount,
+      ...report[0],
       costs,
-      utilitiesPerShare: 0,
-      shares: 1,
-      utilities: 0,
+      earningsPerShare: utilities / 40 > 0 ? utilities / 40 > 0 : 0,
+      shares: user.shares,
+      utilities: utilities > 0 ? utilities > 0 : 0,
     };
   },
 };
