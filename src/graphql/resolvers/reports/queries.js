@@ -6,10 +6,16 @@ const reportsQueries = {
     { firstDay, lastDay },
     { loaders, user: { id } }
   ) => {
+    const user = await User.findOne({
+      _id: id,
+      overallRole: { $in: ["INVESTOR", "STOCKHOLDER"] },
+    });
+
+    if (!user) throw new Error("Error fetching Investor information. ");
+
     // const report = await Trip.aggregate([
     //   {
     //     $match: {
-    //       createdAt: { $gte: firstDay, $lt: lastDay },
     //       deleted: false,
     //     },
     //   },
@@ -50,16 +56,16 @@ const reportsQueries = {
     ];
 
     return {
-      driversCount: 10,
-      startedTrips: 1000,
-      tripsIncome: 8000.0,
-      successTrips: 960,
-      notStartedTrips: 30,
-      cancelledTrips: 10,
+      driversCount: 0,
+      startedTrips: 0,
+      tripsIncome: 0.0,
+      successTrips: 0,
+      notStartedTrips: 0,
+      cancelledTrips: 0,
       costs,
-      utilitiesPerShare: 400,
-      shares: 2,
-      utilities: 800,
+      utilitiesPerShare: 0,
+      shares: 1,
+      utilities: 0,
     };
   },
 };
