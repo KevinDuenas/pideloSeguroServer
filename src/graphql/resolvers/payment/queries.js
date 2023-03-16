@@ -11,7 +11,9 @@ const paymentQueries = {
         const { page, pageSize } = params;
         const paymentPromise = Payment.find(query)
           .skip(pageSize * (page - 1))
-          .limit(pageSize);
+          .limit(pageSize)
+          .sort({ createdAt: -1 });
+
         const results = await paymentPromise;
         return resolvePayment.many(results, loaders);
       },
