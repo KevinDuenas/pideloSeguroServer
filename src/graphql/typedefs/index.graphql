@@ -8,6 +8,7 @@ type Query {
   # User
   userByToken: User!
   userDocumentsStatus: [UserDocumentStatus]
+  drivers: [User]!
 
   # Confg - Documents
   driverDocuments: [DocumentConfig]
@@ -24,6 +25,10 @@ type Query {
 
   # Payments
   driverPayments: [Payment]!
+  payments(params: QueryParams!): Payments!
+
+  # Service
+  services(state: StatesEnum!, params: QueryParams): Services! @paginate
 
   # Others
   serverDate: Date!
@@ -53,6 +58,12 @@ type Mutation {
   createStripePayment(amountInCents: Int!): Payment
   addStripePaymentMethod: String!
   removePaymentMethod: Boolean!
+  createDepositPayment(deposit: DepositPaymentCreateInput!): Payment
+
+  # Services
+  createPassengersService(service: PassengersServiceCreateInput!): Service!
+  createDeliveryService(service: DeliveryServiceCreateInput!): Service!
+  createFoodDeliveryService(service: FoodDeliveryServiceCreateInput!): Service!
 
   # Others
   serverDate: Date!

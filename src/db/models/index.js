@@ -6,3 +6,4 @@ export { default as VerificationRequest } from "./verificationRequest";
 export { default as Folio } from "./folio";
 export { default as Automobile } from "./automobile";
 export { default as Payment } from "./payment";
+export { default as Service } from "./service";

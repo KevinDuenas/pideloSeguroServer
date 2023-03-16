@@ -8,6 +8,7 @@ const resolvePayment = {
 
     return {
       ...paymentObject,
+      user: () => loaders.user.one(paymentObject.user, loaders),
       id: paymentObject._id,
     };
   },
