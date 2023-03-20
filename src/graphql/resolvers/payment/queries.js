@@ -1,8 +1,13 @@
 import { Payment } from "@db/models";
+import { defaultParams } from "@config/constants";
 import resolvePayment from "@graphql/resolvers/payment";
 
 const paymentQueries = {
-  payments: async (_, { params }, { loaders, user: { id } }) => {
+  payments: async (
+    _,
+    { params = defaultParams },
+    { loaders, user: { id } }
+  ) => {
     const query = {
       deleted: false,
     };

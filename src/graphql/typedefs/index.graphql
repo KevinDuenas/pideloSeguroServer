@@ -25,7 +25,7 @@ type Query {
 
   # Payments
   driverPayments: [Payment]!
-  payments(params: QueryParams!): Payments!
+  payments(params: QueryParams): Payments! @paginate
 
   # Service
   services(state: StatesEnum!, params: QueryParams): Services! @paginate

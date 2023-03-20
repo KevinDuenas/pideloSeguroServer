@@ -2,7 +2,7 @@ import { join } from "path";
 import { readdirSync, readFileSync } from "fs";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import resolvers from "@graphql/resolvers";
-import { paginate } from "@graphql/directives";
+import { paginateTransformer } from "@graphql/directives";
 
 const gqlFiles = readdirSync(join(__dirname, "./typedefs"));
 
@@ -14,12 +14,12 @@ gqlFiles.forEach((file) => {
   });
 });
 
-const schema = makeExecutableSchema({
+console.log(paginateTransformer);
+let schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-  schemaDirectives: {
-    paginate,
-  },
 });
+
+schema = paginateTransformer(schema, "paginate");
 
 export default schema;
