@@ -1,4 +1,5 @@
 import { User, Config } from "@db/models";
+import { defaultParams } from "@config/constants";
 import resolveUser from "@graphql/resolvers/user";
 
 const userQueries = {
@@ -29,6 +30,31 @@ const userQueries = {
   drivers: async (_, __, { loaders, user: { id } }) => {
     const drivers = await User.find({ overallRole: "DRIVER" });
     return resolveUser.many(drivers, loaders);
+  },
+  users: async (
+    _,
+    { type, params = defaultParams },
+    { loaders, user: { id } }
+  ) => {
+    const query = {
+      deleted: false,
+      overallRole: type,
+    };
+
+    return {
+      results: async () => {
+        const { page, pageSize } = params;
+        const usersPromise = User.find(query)
+          .skip(pageSize * (page - 1))
+          .limit(pageSize)
+          .sort({ createdAt: -1 });
+
+        const results = await usersPromise;
+        return resolveUser.many(results, loaders);
+      },
+      count: () => User.countDocuments(query),
+      params,
+    };
   },
 };
 

@@ -8,6 +8,7 @@ type Query {
   # User
   userByToken: User!
   userDocumentsStatus: [UserDocumentStatus]
+  users(type: OverallRole!, params: QueryParams): Users! @paginate
   drivers: [User]!
 
   # Confg - Documents
