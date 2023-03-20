@@ -38,7 +38,9 @@ type Query {
 type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
-  createAdminRole(user: AdminCreateInput!): User!
+  createAdminUser(user: AdminCreateInput!): User!
+  createInvestorUser(user: InvestorCreateInput!): User!
+  createSupportUser(user: SupportCreateInput!): User!
   uploadUserDocumentByToken(document: UserDocumentInput!): User!
 
   # Trip

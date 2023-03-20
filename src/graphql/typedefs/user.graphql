@@ -77,9 +77,24 @@ input AdminCreateInput {
   firstLastName: String!
   secondLastName: String!
   email: String!
-  overallRole: OverallRole!
   password: String!
-  shares: Int
+}
+
+input InvestorCreateInput {
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  email: String!
+  password: String!
+  shares: Int!
+}
+
+input SupportCreateInput {
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  email: String!
+  password: String!
 }
 
 input UserDocumentInput {

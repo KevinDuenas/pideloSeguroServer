@@ -16,10 +16,42 @@ const userMutations = {
     );
     return resolveUser.one(updatedUser, loaders);
   },
-  createAdminRole: async (_, { user }, { user: { id }, loaders }) => {
-    const repeteadEmail = await User.findOne({ email: user.email });
+  createAdminUser: async (_, { user }, { user: { id }, loaders }) => {
+    const repeteadEmail = await User.findOne({
+      email: user.email,
+    });
     if (repeteadEmail) throw new Error("Email already in use.");
-    const newUser = new User({ ...user, password: hashSync(user.password) });
+    const newUser = new User({
+      ...user,
+      password: hashSync(user.password),
+      overallRole: "ADMIN",
+    });
+    const savedUser = await newUser.save();
+    return resolveUser.one(savedUser, loaders);
+  },
+  createInvestorUser: async (_, { user }, { user: { id }, loaders }) => {
+    const repeteadEmail = await User.findOne({
+      email: user.email,
+    });
+    if (repeteadEmail) throw new Error("Email already in use.");
+    const newUser = new User({
+      ...user,
+      password: hashSync(user.password),
+      overallRole: "INVESTOR",
+    });
+    const savedUser = await newUser.save();
+    return resolveUser.one(savedUser, loaders);
+  },
+  createSupportUser: async (_, { user }, { user: { id }, loaders }) => {
+    const repeteadEmail = await User.findOne({
+      email: user.email,
+    });
+    if (repeteadEmail) throw new Error("Email already in use.");
+    const newUser = new User({
+      ...user,
+      password: hashSync(user.password),
+      overallRole: "SUPPORT",
+    });
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);
   },
