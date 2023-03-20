@@ -94,7 +94,6 @@ const cancel_timeout_trips = cron.schedule(
         createdAt: { $lte: fiveMinuteAgo },
       });
 
-      console.log("pending trips", pendingTrips);
       for (let trip of pendingTrips) {
         const canceledTrip = await Trip.findOneAndUpdate(
           {

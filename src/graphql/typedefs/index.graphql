@@ -6,6 +6,7 @@ directive @paginate on FIELD_DEFINITION
 
 type Query {
   # User
+  user(id: ID!): User!
   userByToken: User!
   userDocumentsStatus: [UserDocumentStatus]
   users(type: OverallRole!, params: QueryParams): Users! @paginate

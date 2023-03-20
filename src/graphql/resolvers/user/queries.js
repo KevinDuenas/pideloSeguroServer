@@ -3,6 +3,11 @@ import { defaultParams } from "@config/constants";
 import resolveUser from "@graphql/resolvers/user";
 
 const userQueries = {
+  user: async (_, { id: userId }, { loaders, user: { id } }) => {
+    const user = await User.findOne({ _id: userId });
+    if (!user) throw new Error("User id doesn't exists.");
+    return resolveUser.one(user, loaders);
+  },
   userByToken: async (_, __, { loaders, user: { id } }) => {
     const user = await User.findOne({ _id: id });
 
