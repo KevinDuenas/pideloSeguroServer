@@ -58,6 +58,15 @@ type UserDefaultPaymentMethod {
   brand: String
 }
 
+type UsersTotals {
+  ADMIN: Int!
+  USER: Int!
+  SUPPORT: Int!
+  INVESTOR: Int!
+  STOCKHOLDER: Int!
+  DRIVER: Int!
+}
+
 # Inputs
 
 input UserUpdateInput {

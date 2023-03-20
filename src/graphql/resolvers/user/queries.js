@@ -61,6 +61,24 @@ const userQueries = {
       params,
     };
   },
+  usersTotals: async (_, __, { loaders, user: { id } }) => {
+    let users = await User.aggregate([
+      { $match: { deleted: false } },
+      { $group: { _id: "$overallRole", n: { $sum: 1 } } },
+    ]);
+    let usersCount = {
+      ADMIN: 0,
+      USER: 0,
+      DRIVER: 0,
+      SOCKHOLDER: 0,
+      INVESTOR: 0,
+      SUPPORT: 0,
+    };
+    for (let userType of users) {
+      usersCount[userType._id] = userType.n;
+    }
+    return usersCount;
+  },
 };
 
 export default userQueries;
