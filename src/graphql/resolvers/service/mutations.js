@@ -14,6 +14,21 @@ const serviceMutations = {
     const savedService = await newService.save();
     return resolveService.one(savedService, loaders);
   },
+  editPassengersService: async (
+    _,
+    { serviceId, service },
+    { user: { id }, loaders }
+  ) => {
+    const editedService = await Service.findOneAndUpdate(
+      { _id: serviceId, deleted: false },
+      { ...service },
+      {
+        new: true,
+      }
+    );
+    if (!editedService) throw new Error("Service not found.");
+    return resolveService.one(editedService, loaders);
+  },
   createDeliveryService: async (_, { service }, { user: { id }, loaders }) => {
     const newService = new Service({
       ...service,
@@ -21,6 +36,22 @@ const serviceMutations = {
     });
     const savedService = await newService.save();
     return resolveService.one(savedService, loaders);
+  },
+  editDeliveryService: async (
+    _,
+    { serviceId, service },
+    { user: { id }, loaders }
+  ) => {
+    const editedService = await Service.findOneAndUpdate(
+      { _id: serviceId, deleted: false },
+      { ...service },
+      {
+        new: true,
+      }
+    );
+
+    if (!editedService) throw new Error("Service not found.");
+    return resolveService.one(editedService, loaders);
   },
   createFoodDeliveryService: async (
     _,
@@ -33,6 +64,21 @@ const serviceMutations = {
     });
     const savedService = await newService.save();
     return resolveService.one(savedService, loaders);
+  },
+  editFoodDeliveryService: async (
+    _,
+    { serviceId, service },
+    { user: { id }, loaders }
+  ) => {
+    const editedService = await Service.findOneAndUpdate(
+      { _id: serviceId, deleted: false },
+      { ...service },
+      {
+        new: true,
+      }
+    );
+    if (!editedService) throw new Error("Service not found.");
+    return resolveService.one(editedService, loaders);
   },
 };
 

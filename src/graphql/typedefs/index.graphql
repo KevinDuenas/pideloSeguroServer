@@ -65,8 +65,20 @@ type Mutation {
 
   # Services
   createPassengersService(service: PassengersServiceCreateInput!): Service!
+  editPassengersService(
+    serviceId: ID!
+    service: PassengersServiceEditInput!
+  ): Service!
   createDeliveryService(service: DeliveryServiceCreateInput!): Service!
+  editDeliveryService(
+    serviceId: ID!
+    service: DeliveryServiceEditInput!
+  ): Service!
   createFoodDeliveryService(service: FoodDeliveryServiceCreateInput!): Service!
+  editFoodDeliveryService(
+    serviceId: ID!
+    service: FoodDeliveryServiceEditInput!
+  ): Service!
 
   # Others
   serverDate: Date!
