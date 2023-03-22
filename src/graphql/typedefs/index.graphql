@@ -41,8 +41,11 @@ type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
   createAdminUser(user: AdminCreateInput!): User!
+  editAdminUser(userId: ID!, user: AdminUpdateInput!): User!
   createInvestorUser(user: InvestorCreateInput!): User!
+  editInvestorUser(userId: ID!, user: InvestorUpdateInput!): User!
   createSupportUser(user: SupportCreateInput!): User!
+  editSupportUser(userId: ID!, user: SupportUpdateInput!): User!
   uploadUserDocumentByToken(document: UserDocumentInput!): User!
 
   # Trip

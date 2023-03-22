@@ -29,6 +29,18 @@ const userMutations = {
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);
   },
+  editAdminUser: async (_, { userId, user }, { user: { id }, loaders }) => {
+    const editedUser = await User.findOneAndUpdate(
+      { _id: userId, deleted: false, overallRole: "ADMIN" },
+      { ...user },
+      {
+        new: true,
+      }
+    );
+
+    if (!editedUser) throw new Error("User not found.");
+    return resolveUser.one(editedUser, loaders);
+  },
   createInvestorUser: async (_, { user }, { user: { id }, loaders }) => {
     const repeteadEmail = await User.findOne({
       email: user.email,
@@ -42,6 +54,18 @@ const userMutations = {
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);
   },
+  editInvestorUser: async (_, { userId, user }, { user: { id }, loaders }) => {
+    const editedUser = await User.findOneAndUpdate(
+      { _id: userId, deleted: false, overallRole: "INVESTOR" },
+      { ...user },
+      {
+        new: true,
+      }
+    );
+
+    if (!editedUser) throw new Error("User not found.");
+    return resolveUser.one(editedUser, loaders);
+  },
   createSupportUser: async (_, { user }, { user: { id }, loaders }) => {
     const repeteadEmail = await User.findOne({
       email: user.email,
@@ -54,6 +78,18 @@ const userMutations = {
     });
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);
+  },
+  editSupportUser: async (_, { userId, user }, { user: { id }, loaders }) => {
+    const editedUser = await User.findOneAndUpdate(
+      { _id: userId, deleted: false, overallRole: "SUPPORT" },
+      { ...user },
+      {
+        new: true,
+      }
+    );
+
+    if (!editedUser) throw new Error("User not found.");
+    return resolveUser.one(editedUser, loaders);
   },
   uploadUserDocumentByToken: async (
     _,
