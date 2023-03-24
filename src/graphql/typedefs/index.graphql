@@ -27,6 +27,7 @@ type Query {
   investorsReport: InvestorsReport!
 
   # Payments
+  driverBalance: DriverBalance!
   driverPayments: [Payment]!
   payments(params: QueryParams): Payments! @paginate
 
