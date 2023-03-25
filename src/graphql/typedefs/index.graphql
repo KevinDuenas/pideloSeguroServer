@@ -11,6 +11,7 @@ type Query {
   userDocumentsStatus: [UserDocumentStatus]
   users(type: OverallRole!, params: QueryParams): Users! @paginate
   drivers: [User]!
+  driverServices: DriverServices!
   usersTotals: UsersTotals!
 
   # Confg - Documents

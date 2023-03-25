@@ -58,6 +58,11 @@ type UserDefaultPaymentMethod {
   brand: String
 }
 
+type DriverServices {
+  principal: Service!
+  other: [Service]!
+}
+
 type UsersTotals {
   ADMIN: Int!
   USER: Int!

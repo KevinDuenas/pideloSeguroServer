@@ -1,6 +1,7 @@
-import { User, Config } from "@db/models";
+import { User, Config, Service } from "@db/models";
 import { defaultParams } from "@config/constants";
 import resolveUser from "@graphql/resolvers/user";
+import resolveService from "@graphql/resolvers/service";
 
 const userQueries = {
   user: async (_, { id: userId }, { loaders, user: { id } }) => {
@@ -59,6 +60,22 @@ const userQueries = {
       },
       count: () => User.countDocuments(query),
       params,
+    };
+  },
+  driverServices: async (_, __, { loaders, user: { id } }) => {
+    //const driver = await User.findOne({ _id: id, overallRole: "DRIVER" });
+
+    const principal = await Service.findOne({
+      _id: "6411fd03eb8225aeac3d16b9",
+    });
+
+    const others = await Service.find({
+      _id: { $in: ["640ac30a5a807dafb9fb612b", "6411fd3feb8225aeac3d16c0"] },
+    });
+
+    return {
+      principal: () => resolveService.one(principal, loaders),
+      other: () => resolveService.many(others, loaders),
     };
   },
   usersTotals: async (_, __, { loaders, user: { id } }) => {
