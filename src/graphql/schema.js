@@ -14,7 +14,6 @@ gqlFiles.forEach((file) => {
   });
 });
 
-console.log(paginateTransformer);
 let schema = makeExecutableSchema({
   typeDefs,
   resolvers,
