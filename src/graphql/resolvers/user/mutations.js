@@ -18,11 +18,12 @@ const userMutations = {
   },
   createAdminUser: async (_, { user }, { user: { id }, loaders }) => {
     const repeteadEmail = await User.findOne({
-      email: user.email,
+      email: user.email.toLowerCase(),
     });
     if (repeteadEmail) throw new Error("Email already in use.");
     const newUser = new User({
       ...user,
+      email: user.email.toLowerCase(),
       password: hashSync(user.password),
       overallRole: "ADMIN",
     });
@@ -43,13 +44,14 @@ const userMutations = {
   },
   createInvestorUser: async (_, { user }, { user: { id }, loaders }) => {
     const repeteadEmail = await User.findOne({
-      email: user.email,
+      email: user.email.toLowerCase(),
     });
     if (repeteadEmail) throw new Error("Email already in use.");
     const newUser = new User({
       ...user,
       password: hashSync(user.password),
       overallRole: "INVESTOR",
+      email: user.email.toLowerCase(),
     });
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);
@@ -68,13 +70,14 @@ const userMutations = {
   },
   createSupportUser: async (_, { user }, { user: { id }, loaders }) => {
     const repeteadEmail = await User.findOne({
-      email: user.email,
+      email: user.email.toLowerCase(),
     });
     if (repeteadEmail) throw new Error("Email already in use.");
     const newUser = new User({
       ...user,
       password: hashSync(user.password),
       overallRole: "SUPPORT",
+      email: user.email.toLowerCase(),
     });
     const savedUser = await newUser.save();
     return resolveUser.one(savedUser, loaders);

@@ -32,7 +32,7 @@ auth.post("/registerDriver", async (req, res) => {
 
   try {
     const emailSearch = await User.findOne({
-      email,
+      email: email.toLowerCase(),
     });
     if (emailSearch)
       return res.status(401).json({
@@ -44,7 +44,7 @@ auth.post("/registerDriver", async (req, res) => {
       firstName,
       firstLastName,
       secondLastName,
-      email,
+      email: email.toLowerCase(),
       password: hashSync(password),
     });
     const userSaved = await user.save();
@@ -69,7 +69,7 @@ auth.post("/loginDriver", async (req, res) => {
   const { email, password, expires = true } = req.body;
   try {
     const user = await User.findOne({
-      email,
+      email: email.toLowerCase(),
       overallRole: { $in: ["DRIVER"] },
     });
     if (!user || !compareSync(password, user.password))
@@ -100,7 +100,7 @@ auth.post("/loginAdmin", async (req, res) => {
   const { email, password, expires = true } = req.body;
   try {
     const user = await User.findOne({
-      email,
+      email: email.toLowerCase(),
       overallRole: { $in: ["ADMIN", "SUPPORT", "INVESTOR", "STOCKHOLDER"] },
     });
     if (!user || !compareSync(password, user.password))
@@ -141,7 +141,7 @@ auth.post("/logout", async (req, res) => {
 auth.post("/recover", async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (user) {
       const passwordRecoveryToken = tokens.passwordRecovery.get(user);
       user.passwordRecoveryToken = passwordRecoveryToken;
