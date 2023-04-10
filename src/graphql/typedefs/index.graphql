@@ -6,9 +6,13 @@ directive @paginate on FIELD_DEFINITION
 
 type Query {
   # User
+  user(id: ID!): User!
   userByToken: User!
   userDocumentsStatus: [UserDocumentStatus]
+  users(type: OverallRole!, params: QueryParams): Users! @paginate
   drivers: [User]!
+  driverServices: DriverServices!
+  usersTotals: UsersTotals!
 
   # Confg - Documents
   driverDocuments: [DocumentConfig]
@@ -16,6 +20,7 @@ type Query {
   # Trip
   driverTrips(params: QueryParams): Trips! @paginate
   trip(tripId: ID!): Trip
+  trips(params: QueryParams): Trips! @paginate
 
   # AWS
   signFileUrl(filePath: String!, fileType: String!): SignedFileUrl!
@@ -24,8 +29,9 @@ type Query {
   investorsReport: InvestorsReport!
 
   # Payments
+  driverBalance: DriverBalance!
   driverPayments: [Payment]!
-  payments(params: QueryParams!): Payments!
+  payments(params: QueryParams): Payments! @paginate
 
   # Service
   services(state: StatesEnum!, params: QueryParams): Services! @paginate
@@ -37,7 +43,12 @@ type Query {
 type Mutation {
   # User
   updateUserByToken(user: UserUpdateInput!): User!
-  createAdminRole(user: AdminCreateInput!): User!
+  createAdminUser(user: AdminCreateInput!): User!
+  editAdminUser(userId: ID!, user: AdminUpdateInput!): User!
+  createInvestorUser(user: InvestorCreateInput!): User!
+  editInvestorUser(userId: ID!, user: InvestorUpdateInput!): User!
+  createSupportUser(user: SupportCreateInput!): User!
+  editSupportUser(userId: ID!, user: SupportUpdateInput!): User!
   uploadUserDocumentByToken(document: UserDocumentInput!): User!
 
   # Trip
@@ -62,8 +73,20 @@ type Mutation {
 
   # Services
   createPassengersService(service: PassengersServiceCreateInput!): Service!
+  editPassengersService(
+    serviceId: ID!
+    service: PassengersServiceEditInput!
+  ): Service!
   createDeliveryService(service: DeliveryServiceCreateInput!): Service!
+  editDeliveryService(
+    serviceId: ID!
+    service: DeliveryServiceEditInput!
+  ): Service!
   createFoodDeliveryService(service: FoodDeliveryServiceCreateInput!): Service!
+  editFoodDeliveryService(
+    serviceId: ID!
+    service: FoodDeliveryServiceEditInput!
+  ): Service!
 
   # Others
   serverDate: Date!

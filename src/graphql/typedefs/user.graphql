@@ -58,6 +58,20 @@ type UserDefaultPaymentMethod {
   brand: String
 }
 
+type DriverServices {
+  principal: Service!
+  other: [Service]!
+}
+
+type UsersTotals {
+  ADMIN: Int!
+  USER: Int!
+  SUPPORT: Int!
+  INVESTOR: Int!
+  STOCKHOLDER: Int!
+  DRIVER: Int!
+}
+
 # Inputs
 
 input UserUpdateInput {
@@ -77,9 +91,43 @@ input AdminCreateInput {
   firstLastName: String!
   secondLastName: String!
   email: String!
-  overallRole: OverallRole!
   password: String!
+}
+
+input AdminUpdateInput {
+  firstName: String
+  firstLastName: String
+  secondLastName: String
+}
+
+input InvestorCreateInput {
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  email: String!
+  password: String!
+  shares: Int!
+}
+
+input InvestorUpdateInput {
+  firstName: String
+  firstLastName: String
+  secondLastName: String
   shares: Int
+}
+
+input SupportCreateInput {
+  firstName: String!
+  firstLastName: String!
+  secondLastName: String!
+  email: String!
+  password: String!
+}
+
+input SupportUpdateInput {
+  firstName: String
+  firstLastName: String
+  secondLastName: String
 }
 
 input UserDocumentInput {

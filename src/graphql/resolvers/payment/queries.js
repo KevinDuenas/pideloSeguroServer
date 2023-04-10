@@ -1,8 +1,14 @@
 import { Payment } from "@db/models";
+import { defaultParams } from "@config/constants";
 import resolvePayment from "@graphql/resolvers/payment";
+import { UserAgent } from "express-useragent";
 
 const paymentQueries = {
-  payments: async (_, { params }, { loaders, user: { id } }) => {
+  payments: async (
+    _,
+    { params = defaultParams },
+    { loaders, user: { id } }
+  ) => {
     const query = {
       deleted: false,
     };
@@ -20,6 +26,17 @@ const paymentQueries = {
       count: () => Payment.countDocuments(query),
       params,
     };
+  },
+  driverBalance: async (_, __, { loaders, user: { id } }) => {
+    // const driver = await User.findOne({ _id: id, overallRole: "DRIVER" });
+    // if (!driver) throw new Error("Driver not found.");
+    let driverBalance = {
+      balance: 100.0,
+      prevMonth: 50.0,
+      recharges: 150.0,
+      fees: 100.0,
+    };
+    return driverBalance;
   },
   driverPayments: async (_, __, { loaders, user: { id } }) => {
     const payments = await Payment.find({ user: id, deleted: false }).sort({

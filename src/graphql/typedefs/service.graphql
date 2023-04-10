@@ -45,6 +45,16 @@ input PassengersServiceCreateInput {
   nightRate: RateInput!
 }
 
+input PassengersServiceEditInput {
+  name: String
+  description: String
+  maxPassengers: Int
+  instructions: String
+  active: Boolean
+  dayRate: RateInput
+  nightRate: RateInput
+}
+
 input DeliveryServiceCreateInput {
   name: String!
   description: String!
@@ -56,6 +66,16 @@ input DeliveryServiceCreateInput {
   nightRate: RateInput!
 }
 
+input DeliveryServiceEditInput {
+  name: String
+  description: String
+  maxVolumetric: Float
+  instructions: String
+  active: Boolean
+  dayRate: RateInput
+  nightRate: RateInput
+}
+
 input FoodDeliveryServiceCreateInput {
   name: String!
   description: String!
@@ -64,6 +84,15 @@ input FoodDeliveryServiceCreateInput {
   active: Boolean!
   dayRate: RateInput!
   nightRate: RateInput!
+}
+
+input FoodDeliveryServiceEditInput {
+  name: String
+  description: String
+  instructions: String
+  active: Boolean
+  dayRate: RateInput
+  nightRate: RateInput
 }
 
 input RateInput {

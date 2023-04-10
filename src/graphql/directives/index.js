@@ -1,1 +1,1 @@
-export { default as paginate } from './paginate';
+export { default as paginateTransformer } from "./paginate";

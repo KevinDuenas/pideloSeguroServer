@@ -17,6 +17,13 @@ type Payments {
   results: [Payment]!
 }
 
+type DriverBalance {
+  balance: Float!
+  prevMonth: Float!
+  recharges: Float!
+  fees: Float
+}
+
 input DepositPaymentCreateInput {
   amount: Float!
   user: ID!
