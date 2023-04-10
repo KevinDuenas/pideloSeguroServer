@@ -20,6 +20,7 @@ type Query {
   # Trip
   driverTrips(params: QueryParams): Trips! @paginate
   trip(tripId: ID!): Trip
+  trips(params: QueryParams): Trips! @paginate
 
   # AWS
   signFileUrl(filePath: String!, fileType: String!): SignedFileUrl!
